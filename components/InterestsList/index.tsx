@@ -1,4 +1,5 @@
 import Select from "@/components/Select";
+import XIcon from "@/icons/XIcon";
 import { Interest } from "@/types/interests";
 import { useState } from "react";
 
@@ -30,32 +31,41 @@ const InterestsList = ({
   };
 
   return (
-    <div>
-      <div>
+    <div className="space-y-4">
+      <div className="flex flex-wrap -mx-2">
         {interests.map((interest: Interest) => (
-          <div key={interest.id} className="flex gap-3">
-            <div className="">{interest.name}</div>
-            <button className="" onClick={() => removeInterest(interest.id)}>
-              X
+          <div
+            key={interest.id}
+            className="bg-white px-4 py-2 rounded-md shadow-sm m-2 flex items-center justify-between"
+          >
+            <div className="text-black">{interest.name}</div>
+            <button
+              className="text-red-500 rounded-full p-2 hover:bg-red-100 transition-colors flex items-center justify-center"
+              onClick={() => removeInterest(interest.id)}
+            >
+              <XIcon fill="red" />
             </button>
           </div>
         ))}
       </div>
 
-      <Select
-        showSearch
-        placeholder="Select an interest"
-        value={selectedInterest}
-        onChange={(value) => {
-          addInterest(value);
-          setSelectedInterest(null);
-        }}
-        options={allPossibleInterests
-          .filter((interestItem) => !interests.includes(interestItem))
-          .map((interest) => {
-            return { label: interest.name, value: interest.id };
-          })}
-      />
+      <div className="flex gap-3 items-center">
+        <h3>Select to add a new interest </h3>
+        <Select
+          showSearch
+          placeholder="Select an interest"
+          value={selectedInterest}
+          onChange={(value) => {
+            addInterest(value);
+            setSelectedInterest(null);
+          }}
+          options={allPossibleInterests
+            .filter((interestItem) => !interests.includes(interestItem))
+            .map((interest) => {
+              return { label: interest.name, value: interest.id };
+            })}
+        />
+      </div>
     </div>
   );
 };

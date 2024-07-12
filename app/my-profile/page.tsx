@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-
 import InterestsList from "@/components/InterestsList";
 import TextArea from "@/components/TextArea";
 import { Interest } from "@/types/interests";
@@ -35,57 +34,68 @@ export default function MyProfile() {
   const selectCity = (id: string) => {
     setCity(id);
   };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between bg-[#FFF5E1] ">
-      <div className="p-8 m-8 min-w-[800px] min-h-screen flex flex-col content-center gap-3 ">
-        <h1 className="text-center text-[#0C1844] text-xl font-bold">
-          My profile
+    <main className="flex min-h-screen flex-col items-center bg-[#FFF5E1]">
+      <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6 space-y-6">
+        <h1 className="text-center text-[#0C1844] text-2xl font-bold mb-4">
+          My Profile
         </h1>
 
-        <div className="w-full flex items-center justify-center">
-          <div className="w-[400px] h-[600px] bg-black"></div>
+        <div className="w-full flex items-center justify-center mb-6">
+          <Image
+            src="/images/cat.jpeg"
+            alt="Profile"
+            width={200}
+            height={150}
+          />
         </div>
 
-        <div className="w-full flex justify-center flex-col ">
-          <h2 className="text-black font-bold">Location</h2>
-          <div>
-            <h3>Country</h3>
+        <div className="space-y-4">
+          <h2 className="text-black font-bold text-lg">Location</h2>
+          <div className="space-y-2">
+            <h3 className="text-gray-700">Country</h3>
             <Select
               showSearch
               placeholder="Choose a country"
               value={country}
               onChange={selectCountry}
-              options={countries.map((country) => {
-                return { label: country.name, value: country.id };
-              })}
+              options={countries.map((country) => ({
+                label: country.name,
+                value: country.id,
+              }))}
             />
           </div>
 
-          <div>
-            <h3>City</h3>
+          <div className="space-y-2">
+            <h3 className="text-gray-700">City</h3>
             <Select
               showSearch
               placeholder="Choose a city"
               value={city}
               onChange={selectCity}
-              options={cities.map((city) => {
-                return { label: city.name, value: city.id };
-              })}
+              options={cities.map((city) => ({
+                label: city.name,
+                value: city.id,
+              }))}
             />
           </div>
         </div>
 
-        <div className="w-full flex justify-center flex-col ">
-          <h2 className="text-black font-bold">Description</h2>
+        <div className="space-y-4">
+          <h2 className="text-black font-bold text-lg">Description</h2>
           <TextArea
             rows={8}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-          ></TextArea>
+            className="p-2 border border-gray-300 rounded-md shadow-sm w-full"
+          />
         </div>
 
-        <div className="w-full flex justify-center flex-col ">
-          <h2 className="text-black font-bold">Gym related interests </h2>
+        <div className="space-y-4">
+          <h2 className="text-black font-bold text-lg">
+            Gym Related Interests
+          </h2>
           <InterestsList
             interests={myGymRelatedInterests}
             setInterests={setMyGymRelatedInterests}
@@ -93,8 +103,10 @@ export default function MyProfile() {
           />
         </div>
 
-        <div className="w-full flex justify-center flex-col ">
-          <h2 className="text-black font-bold">Gym unrelated interests </h2>
+        <div className="space-y-4">
+          <h2 className="text-black font-bold text-lg">
+            Gym Unrelated Interests
+          </h2>
           <InterestsList
             interests={myGymUnrelatedInterests}
             setInterests={setMyGymUnrelatedInterests}
@@ -102,7 +114,9 @@ export default function MyProfile() {
           />
         </div>
 
-        <button>Save profile</button>
+        <button className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition-colors">
+          Save Profile
+        </button>
       </div>
     </main>
   );
