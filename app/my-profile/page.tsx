@@ -6,6 +6,7 @@ import TextArea from "@/components/TextArea";
 import { Interest } from "@/types/interests";
 import Select from "@/components/Select";
 import { CITIES, COUNTRIES, DUMMY_INTERESTS } from "@/dummy-data";
+import StringsList from "@/components/StringsList";
 
 export default function MyProfile() {
   const [description, setDescription] = useState("Descriere random");
@@ -15,7 +16,7 @@ export default function MyProfile() {
   const [countries, setCountries] = useState(COUNTRIES);
   const [cities, setCities] = useState(CITIES);
 
-  const [myGymRelatedInterests, setMyGymRelatedInterests] =
+  const [userRelatedInterests, setUserRelatedInterests] =
     useState<Interest[]>(DUMMY_INTERESTS);
   const [allGymRelatedInterests, setAllGymRelatedInterests] =
     useState<Interest[]>(DUMMY_INTERESTS);
@@ -23,6 +24,13 @@ export default function MyProfile() {
     useState<Interest[]>(DUMMY_INTERESTS);
   const [allGymUnrelatedInterests, setAllGymUnrelatedInterests] =
     useState<Interest[]>(DUMMY_INTERESTS);
+
+  const [userGyms, setUserGyms] = useState<string[]>([]);
+  const [allGyms, setAllGyms] = useState<string[]>([
+    "StayFit Galati",
+    "Stayfit Bucuresti",
+    "Stayfit Braila",
+  ]);
 
   const selectCountry = (id: string) => {
     setCountry(id);
@@ -97,8 +105,8 @@ export default function MyProfile() {
             Gym Related Interests
           </h2>
           <InterestsList
-            interests={myGymRelatedInterests}
-            setInterests={setMyGymRelatedInterests}
+            interests={userRelatedInterests}
+            setInterests={setUserRelatedInterests}
             allPossibleInterests={allGymRelatedInterests}
           />
         </div>
@@ -111,6 +119,16 @@ export default function MyProfile() {
             interests={myGymUnrelatedInterests}
             setInterests={setMyGymUnrelatedInterests}
             allPossibleInterests={allGymUnrelatedInterests}
+          />
+        </div>
+
+        <div className="space-y-4">
+          <h2 className="text-black font-bold text-lg">Goals</h2>
+          <StringsList
+            strings={userGyms}
+            setStrings={setUserGyms}
+            allPossibleStrings={allGyms}
+            name="gym"
           />
         </div>
 
