@@ -42,7 +42,7 @@ const UserProfile = ({
             new Date(user.birth_date)
           )}`}</h2>
           <h2 className="text-lg mb-4">{`${user.country}, ${user.city} `}</h2>
-          <div className="flex-grow overflow-y-auto">
+          <div className="flex-grow overflow-y-auto overflow-x-hidden">
             <p className="max-w-[550px] mb-4">{user.description}</p>
             <ObjectsList
               title={"Gym related interests"}

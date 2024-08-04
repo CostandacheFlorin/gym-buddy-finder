@@ -1,4 +1,9 @@
 export type Interest = {
-  id: string;
+  _id: string;
   name: string;
+  description?: string;
+};
+export const InterestType = {
+  GYM_RELATED: true,
+  GYM_UNRELATED: false,
 };

@@ -4,7 +4,6 @@ import Image from "next/image";
 const ChatItem = ({ chat }: { chat: Chat }) => {
   const currentUserId = "1";
   const lastMessage = chat.messages[chat.messages.length - 1];
-  console.log(lastMessage);
 
   return (
     <div className=" shadow-lg p-2">

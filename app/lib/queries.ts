@@ -4,6 +4,8 @@ import { User } from "@/types/users";
 
 import apiClient from "./axiosConfig";
 
+// TODO: work on the catch
+
 export const fetchUsersToMatch = async ({
   user_id,
   skip,
@@ -14,13 +16,34 @@ export const fetchUsersToMatch = async ({
   limit: number;
 }): Promise<User[]> => {
   try {
-    console.log("FETCHED");
     const { data } = await apiClient.get(
       `/users/matching-list?user_id=${user_id}&skip=${skip}&limit=${limit}`
     );
     return data;
   } catch (error) {
-    console.error("Failed to fetch users:", error);
+    throw error;
+  }
+};
+
+export const fetchLoggedInUser = async (token: string): Promise<User> => {
+  try {
+    // TODO: to add the Bearer token here
+
+    const { data } = await apiClient.get(`/users/me`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchInterestsByType = async (gym_related: boolean) => {
+  try {
+    const { data } = await apiClient.get(
+      `/interests/type?gymRelated=${gym_related}`
+    );
+
+    return data;
+  } catch (error) {
     throw error;
   }
 };

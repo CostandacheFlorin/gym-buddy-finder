@@ -1,11 +1,3 @@
-export const DUMMY_INTERESTS = [
-  { id: "1", name: "powerlifting" },
-  { id: "2", name: "bodybuilding" },
-  { id: "3", name: "calisthenics" },
-  { id: "4", name: "cardio" },
-  { id: "5", name: "crossfit" },
-];
-
 export const COUNTRIES = [
   {
     id: "1",

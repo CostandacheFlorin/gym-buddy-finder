@@ -1,19 +1,16 @@
 import { useState } from "react";
 import XIcon from "@/icons/XIcon";
-import Select from "@/components/Select";
 
 const StringsList = ({
   strings,
   setStrings,
-  allPossibleStrings,
   name,
 }: {
   strings: string[];
   setStrings: React.Dispatch<React.SetStateAction<any[]>>;
-  allPossibleStrings: string[];
   name: string;
 }) => {
-  const [selectedString, setSelectedString] = useState<string | null>(null);
+  const [newString, setNewString] = useState<string>("");
 
   const removeString = (stringToRemove: string) => {
     setStrings((oldStrings: string[]) =>
@@ -25,7 +22,13 @@ const StringsList = ({
     if (!strings.includes(stringToAdd)) {
       setStrings((oldStrings: string[]) => [...oldStrings, stringToAdd]);
     }
-    setSelectedString(null);
+    setNewString("");
+  };
+
+  const handleAddClick = () => {
+    if (newString.trim()) {
+      addString(newString.trim());
+    }
   };
 
   return (
@@ -48,20 +51,20 @@ const StringsList = ({
       </div>
 
       <div className="flex gap-3 items-center">
-        <h3>{`Select to add a new ${name}`} </h3>
-        <Select
-          showSearch
-          placeholder={`Select a ${name}`}
-          value={selectedString}
-          onChange={(value) => {
-            addString(value);
-          }}
-          options={allPossibleStrings
-            .filter((stringItem) => !strings.includes(stringItem))
-            .map((string) => {
-              return { label: string, value: string };
-            })}
+        <h3>{`Add a new ${name}`}</h3>
+        <input
+          type="text"
+          value={newString}
+          onChange={(e) => setNewString(e.target.value)}
+          placeholder={`Type a new ${name}`}
+          className="p-2 border border-gray-300 rounded-md shadow-sm"
         />
+        <button
+          onClick={handleAddClick}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+        >
+          Add
+        </button>
       </div>
     </div>
   );

@@ -1,47 +1,42 @@
 "use client";
-import { useState } from "react";
 import Image from "next/image";
 import InterestsList from "@/components/InterestsList";
 import TextArea from "@/components/TextArea";
-import { Interest } from "@/types/interests";
 import Select from "@/components/Select";
-import { CITIES, COUNTRIES, DUMMY_INTERESTS } from "@/dummy-data";
 import StringsList from "@/components/StringsList";
+import calculateAge from "@/utils/getAgeFromBirthDate";
+import SkeletonProfile from "@/components/MyProfileSkeleton";
+import useMyProfile from "@/hooks/useMyProfile";
 
 export default function MyProfile() {
-  const [description, setDescription] = useState("Descriere random");
-  const [country, setCountry] = useState<string | null>();
-  const [city, setCity] = useState<string>();
-
-  const [countries, setCountries] = useState(COUNTRIES);
-  const [cities, setCities] = useState(CITIES);
-
-  const [userRelatedInterests, setUserRelatedInterests] =
-    useState<Interest[]>(DUMMY_INTERESTS);
-  const [allGymRelatedInterests, setAllGymRelatedInterests] =
-    useState<Interest[]>(DUMMY_INTERESTS);
-  const [myGymUnrelatedInterests, setMyGymUnrelatedInterests] =
-    useState<Interest[]>(DUMMY_INTERESTS);
-  const [allGymUnrelatedInterests, setAllGymUnrelatedInterests] =
-    useState<Interest[]>(DUMMY_INTERESTS);
-
-  const [userGyms, setUserGyms] = useState<string[]>([]);
-  const [allGyms, setAllGyms] = useState<string[]>([
-    "StayFit Galati",
-    "Stayfit Bucuresti",
-    "Stayfit Braila",
-  ]);
-
-  const selectCountry = (id: string) => {
-    setCountry(id);
-    setCity(undefined);
-    const foundCountry = COUNTRIES.find((country) => country.id === id);
-    setCities(CITIES.filter((city) => city.country === foundCountry?.name));
-  };
-
-  const selectCity = (id: string) => {
-    setCity(id);
-  };
+  const {
+    isLoading,
+    user_data,
+    firstName,
+    birthDate,
+    country,
+    selectCountry,
+    countries,
+    city,
+    selectCity,
+    cities,
+    description,
+    setDescription,
+    userGymRelatedInterests,
+    setUserGymRelatedInterests,
+    allGymRelatedInterests,
+    gym_related_interests_isLoading,
+    userGymUnrelatedInterests,
+    setUserGymUnrelatedInterests,
+    allGymUnrelatedInterests,
+    gym_unrelated_interests_isLoading,
+    userGyms,
+    setUserGyms,
+    submitUpdateUserProfile,
+  } = useMyProfile();
+  if (isLoading || !user_data) {
+    return <SkeletonProfile />;
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center bg-[#FFF5E1]">
@@ -54,12 +49,16 @@ export default function MyProfile() {
           <Image
             src="/images/cat.jpeg"
             alt="Profile"
-            width={200}
-            height={150}
+            width={550}
+            height={550}
           />
         </div>
 
         <div className="space-y-4">
+          <h2 className="text-3xl">{`${firstName} ${calculateAge(
+            new Date(birthDate)
+          )}`}</h2>
+
           <h2 className="text-black font-bold text-lg">Location</h2>
           <div className="space-y-2">
             <h3 className="text-gray-700">Country</h3>
@@ -70,7 +69,7 @@ export default function MyProfile() {
               onChange={selectCountry}
               options={countries.map((country) => ({
                 label: country.name,
-                value: country.id,
+                value: country.name,
               }))}
             />
           </div>
@@ -84,7 +83,7 @@ export default function MyProfile() {
               onChange={selectCity}
               options={cities.map((city) => ({
                 label: city.name,
-                value: city.id,
+                value: city.name,
               }))}
             />
           </div>
@@ -105,9 +104,10 @@ export default function MyProfile() {
             Gym Related Interests
           </h2>
           <InterestsList
-            interests={userRelatedInterests}
-            setInterests={setUserRelatedInterests}
+            interests={userGymRelatedInterests}
+            setInterests={setUserGymRelatedInterests}
             allPossibleInterests={allGymRelatedInterests}
+            loading={gym_related_interests_isLoading}
           />
         </div>
 
@@ -116,23 +116,22 @@ export default function MyProfile() {
             Gym Unrelated Interests
           </h2>
           <InterestsList
-            interests={myGymUnrelatedInterests}
-            setInterests={setMyGymUnrelatedInterests}
+            interests={userGymUnrelatedInterests}
+            setInterests={setUserGymUnrelatedInterests}
             allPossibleInterests={allGymUnrelatedInterests}
+            loading={gym_unrelated_interests_isLoading}
           />
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-black font-bold text-lg">Goals</h2>
-          <StringsList
-            strings={userGyms}
-            setStrings={setUserGyms}
-            allPossibleStrings={allGyms}
-            name="gym"
-          />
+          <h2 className="text-black font-bold text-lg">Gyms</h2>
+          <StringsList strings={userGyms} setStrings={setUserGyms} name="gym" />
         </div>
 
-        <button className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition-colors">
+        <button
+          onClick={submitUpdateUserProfile}
+          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition-colors"
+        >
           Save Profile
         </button>
       </div>

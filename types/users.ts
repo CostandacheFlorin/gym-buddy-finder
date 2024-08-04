@@ -20,3 +20,14 @@ export enum Gender {
   MALE = "male",
   FEMALE = "female",
 }
+
+export type UserUpdateProfilePayload = {
+  _id?: string;
+  gyms?: string[];
+  gymRelatedInterests?: string[];
+  nonGymRelatedInterests?: string[];
+  country?: string;
+  city?: string;
+  description?: string;
+  pictures?: [{ _id: string; url: string }];
+};
