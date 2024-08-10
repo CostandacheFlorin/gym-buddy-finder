@@ -17,7 +17,7 @@ export const fetchUsersToMatch = async ({
 }): Promise<User[]> => {
   try {
     const { data } = await apiClient.get(
-      `/users/matching-list?user_id=${user_id}&skip=${skip}&limit=${limit}`
+      `/users/matching-list?skip=${skip}&limit=${limit}`
     );
     return data;
   } catch (error) {

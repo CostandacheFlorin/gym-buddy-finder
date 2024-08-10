@@ -11,6 +11,8 @@ export type User = {
   city: string;
   description: string;
   gyms: string[];
+  password?: string;
+  hashed_password?: string;
   gymRelatedInterests: Interest[];
   nonGymRelatedInterests: Interest[];
   pictures: [{ _id: string; url: string }];
