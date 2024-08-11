@@ -7,8 +7,6 @@ export function middleware(request: NextRequest) {
   // Get the current request URL path
   const pathname = new URL(request.url).pathname;
 
-  console.log(pathname);
-
   // Allow access to public routes
   if (PUBLIC_ROUTES.includes(pathname)) {
     return NextResponse.next();

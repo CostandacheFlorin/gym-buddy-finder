@@ -12,9 +12,7 @@ const useBrowseUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [skip, setSkip] = useState<number>(0);
   const [limit, setLimit] = useState<number>(100);
-  const [loggedInUser, setLoggedInUser] = useState({
-    _id: "66ae3728c9e8cc32a37869e1",
-  });
+
   const queryClient = useQueryClient();
   const {
     data: fetchedUsers = [],
@@ -26,7 +24,6 @@ const useBrowseUsers = () => {
     queryKey: [QueryKeys.browseMatchingUsers],
     queryFn: () => {
       return fetchUsersToMatch({
-        user_id: loggedInUser._id,
         skip,
         limit,
       });
@@ -155,21 +152,16 @@ const useBrowseUsers = () => {
   };
 
   const onMatch = (user_id: string) => {
-    console.log("matched with", user_id);
-
     matchUserMutation({ user_id, status: MatchStatus.MATCHED });
     removeUserFromUsersList(user_id);
     onNext();
   };
 
   const onReject = (user_id: string) => {
-    console.log("rejected with", user_id);
     matchUserMutation({ user_id, status: MatchStatus.REJECTED });
     removeUserFromUsersList(user_id);
     onNext();
   };
-
-  console.log({ users });
 
   return {
     users,

@@ -7,18 +7,17 @@ import StringsList from "@/components/StringsList";
 import calculateAge from "@/utils/getAgeFromBirthDate";
 import SkeletonProfile from "@/components/MyProfileSkeleton";
 import useMyProfile from "@/hooks/useMyProfile";
+import { useUserContext } from "@/context/UserContext";
 
 export default function MyProfile() {
   const {
-    isLoading,
-    user_data,
+    loggedInUser,
+    is_loading_user_data,
     firstName,
     birthDate,
     country,
-    selectCountry,
     countries,
     city,
-    selectCity,
     cities,
     description,
     setDescription,
@@ -32,9 +31,10 @@ export default function MyProfile() {
     gym_unrelated_interests_isLoading,
     userGyms,
     setUserGyms,
-    submitUpdateUserProfile,
-  } = useMyProfile();
-  if (isLoading || !user_data) {
+  } = useUserContext();
+
+  const { selectCountry, selectCity, submitUpdateUserProfile } = useMyProfile();
+  if (is_loading_user_data || !loggedInUser) {
     return <SkeletonProfile />;
   }
 

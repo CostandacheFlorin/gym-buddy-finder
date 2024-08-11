@@ -16,7 +16,6 @@ const InterestsList = ({
 }) => {
   const [selectedInterest, setSelectedInterest] = useState<string | null>(null);
 
-  console.log(interests);
   const removeInterest = (interestId: string) => {
     setInterests((oldInterests: Interest[]) =>
       oldInterests.filter((oldInterest) => oldInterest._id !== interestId)
@@ -24,7 +23,6 @@ const InterestsList = ({
   };
 
   const addInterest = (interestId: string) => {
-    console.log(interestId);
     const foundInterest = allPossibleInterests.find(
       (interestItem) => interestItem._id === interestId
     );

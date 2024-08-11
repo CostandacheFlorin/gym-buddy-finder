@@ -7,11 +7,9 @@ import apiClient from "./axiosConfig";
 // TODO: work on the catch
 
 export const fetchUsersToMatch = async ({
-  user_id,
   skip,
   limit,
 }: {
-  user_id: string;
   skip: number;
   limit: number;
 }): Promise<User[]> => {
@@ -25,10 +23,8 @@ export const fetchUsersToMatch = async ({
   }
 };
 
-export const fetchLoggedInUser = async (token: string): Promise<User> => {
+export const getMe = async (): Promise<User> => {
   try {
-    // TODO: to add the Bearer token here
-
     const { data } = await apiClient.get(`/users/me`);
     return data;
   } catch (error) {

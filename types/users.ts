@@ -15,6 +15,7 @@ export type User = {
   hashed_password?: string;
   gymRelatedInterests: Interest[];
   nonGymRelatedInterests: Interest[];
+  onboarding_completed?: boolean;
   pictures: [{ _id: string; url: string }];
 };
 
