@@ -43,3 +43,24 @@ export const fetchInterestsByType = async (gym_related: boolean) => {
     throw error;
   }
 };
+
+export const getLatestChats = async () => {
+  try {
+    const { data } = await apiClient.get(`/messages/latest-chats`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getChatByUserId = async (user_id: string) => {
+  try {
+    if (!user_id) {
+      return;
+    }
+    const { data } = await apiClient.get(`/messages/${user_id}`);
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

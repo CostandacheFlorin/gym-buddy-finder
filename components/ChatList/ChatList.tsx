@@ -6,13 +6,20 @@ const ChatList = ({
   onClick,
 }: {
   chats: Chat[];
-  onClick: (chat: Chat) => void;
+  onClick: (chat: string) => void;
 }) => {
   return (
     <div className="flex flex-col gap-4">
       {chats.map((chat) => {
         return (
-          <button key={chat.id} onClick={() => onClick(chat)}>
+          <button
+            // @ts-expect-error fix types
+            key={chat.otherUser._id}
+            onClick={() => {
+              // @ts-expect-error fix types
+              onClick(chat.otherUser._id);
+            }}
+          >
             <ChatItem chat={chat} />
           </button>
         );

@@ -1,6 +1,7 @@
 import { User, UserUpdateProfilePayload } from "@/types/users";
 import apiClient from "./axiosConfig";
 import { Match, MatchStatus } from "@/types/match";
+import { MessageStatus } from "@/types/messages";
 
 export const login = async ({
   email,
@@ -66,6 +67,36 @@ export const matchUser = async ({
     const { data } = await apiClient.post(
       `/matches/match`,
       { target_user_id: user_id, status },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const sendMessage = async ({
+  sender,
+  receiver,
+  content,
+}: {
+  sender: string;
+  receiver: string;
+  content: string;
+}) => {
+  try {
+    const { data } = await apiClient.post(
+      `/messages`,
+      {
+        sender,
+        receiver,
+        content,
+        status: MessageStatus.SENT,
+      },
       {
         headers: {
           "Content-Type": "application/json",

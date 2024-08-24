@@ -2,7 +2,7 @@
 import { User } from "@/types/users";
 import { Interest, InterestType } from "@/types/interests";
 import { QueryKeys } from "@/app/lib/queryKeys";
-import { getMe, fetchInterestsByType } from "@/app/lib/queries";
+import { getMe, fetchInterestsByType, getLatestChats } from "@/app/lib/queries";
 import { useQuery } from "@tanstack/react-query";
 import {
   createContext,
@@ -35,6 +35,8 @@ interface UserContextType {
   >;
   allGymUnrelatedInterests: Interest[];
   setAllGymUnrelatedInterests: React.Dispatch<React.SetStateAction<Interest[]>>;
+  latestChats: never[];
+  setLatestChats: React.Dispatch<React.SetStateAction<never[]>>;
   userGyms: string[];
   setUserGyms: React.Dispatch<React.SetStateAction<string[]>>;
   countries: typeof COUNTRIES;
@@ -42,6 +44,7 @@ interface UserContextType {
   setCities: React.Dispatch<React.SetStateAction<typeof CITIES>>;
   gym_related_interests_isLoading: boolean;
   gym_unrelated_interests_isLoading: boolean;
+  latest_chats_isLoading: boolean;
   is_loading_user_data: boolean;
   firstName: string;
   setFirstName: React.Dispatch<React.SetStateAction<string>>;
@@ -51,6 +54,8 @@ interface UserContextType {
   setBirthDate: React.Dispatch<React.SetStateAction<Date>>;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  currentUserIdChat: string | null;
+  setCurrentUserIdChat: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -84,6 +89,10 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   const [lastName, setLastName] = useState<string>("");
   const [birthDate, setBirthDate] = useState<Date>(new Date());
   const [email, setEmail] = useState<string>("");
+  const [latestChats, setLatestChats] = useState([]);
+  const [currentUserIdChat, setCurrentUserIdChat] = useState<string | null>(
+    null
+  );
 
   const {
     data: user_data,
@@ -92,6 +101,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.getMe],
     queryFn: () => getMe(),
+    refetchOnWindowFocus: false,
   });
 
   const {
@@ -101,6 +111,17 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.fetchGymRelatedInterests],
     queryFn: () => fetchInterestsByType(InterestType.GYM_RELATED),
+    refetchOnWindowFocus: false,
+  });
+
+  const {
+    data: latest_chats_data,
+    error: latest_chats_error,
+    isLoading: latest_chats_isLoading,
+  } = useQuery({
+    queryKey: [QueryKeys.getLatestChats],
+    queryFn: () => getLatestChats(),
+    refetchOnWindowFocus: false,
   });
 
   const {
@@ -110,7 +131,10 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.fetchGymUnrelatedInterests],
     queryFn: () => fetchInterestsByType(InterestType.GYM_UNRELATED),
+    refetchOnWindowFocus: false,
   });
+
+  // TO DO: Only fetch the basic data when the user is logged in.
 
   const showError = useCallback((error: Error, entity: string) => {
     toast.error(`Error fetching ${entity}: ${error.message}`, {
@@ -155,6 +179,12 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   }, [gym_unrelated_interests_data]);
 
   useEffect(() => {
+    if (latest_chats_data) {
+      setLatestChats(latest_chats_data);
+    }
+  }, [latest_chats_data]);
+
+  useEffect(() => {
     if (user_error) {
       showError(user_error, "user");
     }
@@ -166,7 +196,17 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     if (gym_unrelated_interests_error) {
       showError(gym_unrelated_interests_error, "gym unrelated interests");
     }
-  }, [user_error, gym_related_interests_error, gym_unrelated_interests_error]);
+
+    if (latest_chats_error) {
+      showError(latest_chats_error, "gym unrelated interests");
+    }
+  }, [
+    user_error,
+    gym_related_interests_error,
+    gym_unrelated_interests_error,
+    latest_chats_error,
+    showError,
+  ]);
 
   const contextValue = useMemo(
     () => ({
@@ -202,6 +242,11 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       email,
       setEmail,
       is_loading_user_data,
+      latestChats,
+      setLatestChats,
+      latest_chats_isLoading,
+      setCurrentUserIdChat,
+      currentUserIdChat,
     }),
     [
       loggedInUser,
@@ -222,6 +267,9 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       birthDate,
       email,
       is_loading_user_data,
+      latestChats,
+      latest_chats_isLoading,
+      currentUserIdChat,
     ]
   );
 
