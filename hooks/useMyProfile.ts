@@ -3,8 +3,11 @@ import { updateUser } from "@/app/lib/mutations";
 import { UserUpdateProfilePayload } from "@/types/users";
 import { Bounce, toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 const useMyProfile = () => {
+  const [isOnboardingModalOpen, setIsOnboardingModalOpen] = useState(false);
+
   const {
     loggedInUser,
     country,
@@ -19,6 +22,12 @@ const useMyProfile = () => {
     cities,
     setCities,
   } = useUserContext();
+
+  useEffect(() => {
+    if (loggedInUser && !loggedInUser.onboarding_completed) {
+      handleOnboardingOpenModal();
+    }
+  }, [loggedInUser]);
 
   const { mutate: updateUserMutation } = useMutation({
     mutationFn: updateUser,
@@ -50,6 +59,13 @@ const useMyProfile = () => {
     },
   });
 
+  const handleOnboardingOpenModal = () => {
+    setIsOnboardingModalOpen(true);
+  };
+
+  const handleOnboardingCloseModal = () => {
+    setIsOnboardingModalOpen(false);
+  };
   const selectCountry = (name: string) => {
     setCountry(name);
     setCity(undefined);
@@ -62,6 +78,26 @@ const useMyProfile = () => {
   };
 
   const submitUpdateUserProfile = () => {
+    if (
+      !city ||
+      !country ||
+      !userGyms.length ||
+      !userGymRelatedInterests.length ||
+      !userGymUnrelatedInterests.length
+    ) {
+      toast.error(`Please fill in all the fields.`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+      return;
+    }
     if (!loggedInUser) {
       toast.error(`Your profile couldn't be fetched.`, {
         position: "top-center",
@@ -88,6 +124,7 @@ const useMyProfile = () => {
       nonGymRelatedInterests: userGymUnrelatedInterests.map(
         (interest) => interest._id
       ),
+      onboarding_completed: true,
     };
 
     updateUserMutation({ user_id: loggedInUser._id, payload });
@@ -97,6 +134,9 @@ const useMyProfile = () => {
     selectCountry,
     selectCity,
     submitUpdateUserProfile,
+    handleOnboardingCloseModal,
+    handleOnboardingOpenModal,
+    isOnboardingModalOpen,
   };
 };
 

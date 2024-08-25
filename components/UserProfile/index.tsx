@@ -30,8 +30,8 @@ const UserProfile = ({
       <div className="bg-gray-100 w-full max-w-[550px] flex flex-col">
         <div className="flex-shrink-0">
           <Image
-            width={550}
-            height={550}
+            width={350}
+            height={350}
             src={user.pictures[0]?.url || "/images/cat.jpeg"}
             alt={`user picture`}
             className="w-full h-auto"

@@ -3,6 +3,7 @@ import Image from "next/image";
 import InterestsList from "@/components/InterestsList";
 import TextArea from "@/components/TextArea";
 import Select from "@/components/Select";
+import Modal from "@/components/Modal";
 import StringsList from "@/components/StringsList";
 import calculateAge from "@/utils/getAgeFromBirthDate";
 import SkeletonProfile from "@/components/MyProfileSkeleton";
@@ -33,7 +34,13 @@ export default function MyProfile() {
     setUserGyms,
   } = useUserContext();
 
-  const { selectCountry, selectCity, submitUpdateUserProfile } = useMyProfile();
+  const {
+    selectCountry,
+    selectCity,
+    submitUpdateUserProfile,
+    handleOnboardingCloseModal,
+    isOnboardingModalOpen,
+  } = useMyProfile();
   if (is_loading_user_data || !loggedInUser) {
     return <SkeletonProfile />;
   }
@@ -49,8 +56,8 @@ export default function MyProfile() {
           <Image
             src="/images/cat.jpeg"
             alt="Profile"
-            width={550}
-            height={550}
+            width={350}
+            height={350}
           />
         </div>
 
@@ -135,6 +142,18 @@ export default function MyProfile() {
           Save Profile
         </button>
       </div>
+
+      <Modal
+        isOpen={isOnboardingModalOpen}
+        onClose={handleOnboardingCloseModal}
+        title="You need to finish setting up your profile!"
+        content={
+          <p>
+            Please choose your location, interests and the gyms you are going
+            to!
+          </p>
+        }
+      />
     </main>
   );
 }

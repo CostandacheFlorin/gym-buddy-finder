@@ -54,6 +54,8 @@ interface UserContextType {
   setBirthDate: React.Dispatch<React.SetStateAction<Date>>;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
+  refetchGetMe: () => void;
+  refetchLatestChats: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -93,6 +95,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     data: user_data,
     error: user_error,
     isLoading: is_loading_user_data,
+    refetch: refetchGetMe,
   } = useQuery({
     queryKey: [QueryKeys.getMe],
     queryFn: () => getMe(),
@@ -113,6 +116,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     data: latest_chats_data,
     error: latest_chats_error,
     isLoading: latest_chats_isLoading,
+    refetch: refetchLatestChats,
   } = useQuery({
     queryKey: [QueryKeys.getLatestChats],
     queryFn: () => getLatestChats(),
@@ -240,6 +244,8 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       latestChats,
       setLatestChats,
       latest_chats_isLoading,
+      refetchGetMe,
+      refetchLatestChats,
     }),
     [
       loggedInUser,
@@ -262,6 +268,8 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       is_loading_user_data,
       latestChats,
       latest_chats_isLoading,
+      refetchGetMe,
+      refetchLatestChats,
     ]
   );
 

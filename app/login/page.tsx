@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { login } from "../lib/mutations";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import Link from "next/link";
+import { useUserContext } from "@/context/UserContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,11 +14,14 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { refetchLatestChats, refetchGetMe } = useUserContext();
 
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onSuccess: () => {
-      router.push("/browse"); // Redirect to dashboard or home page
+      refetchLatestChats();
+      refetchGetMe();
+      router.push("/browse");
     },
     onError: (error: any) => {
       setError(error.response?.data.message || "Login failed");
@@ -26,7 +30,7 @@ export default function LoginPage() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(null); // Clear previous errors
+    setError(null);
     mutate({ email, password });
   };
 

@@ -1,11 +1,15 @@
 "use client";
+import { useRouter } from "next/navigation";
 
 import UserProfile from "@/components/UserProfile";
 import SkeletonUserProfile from "@/components/SkeletonUserProfile";
 
 import useBrowseUsers from "@/hooks/useBrowseUsers";
+import { useUserContext } from "@/context/UserContext";
 
 export default function Browse() {
+  const router = useRouter();
+
   const {
     users,
     currentUserIndex,
@@ -16,8 +20,15 @@ export default function Browse() {
     isLoading,
   } = useBrowseUsers();
 
-  if (isLoading) {
+  const { loggedInUser, is_loading_user_data, latest_chats_isLoading } =
+    useUserContext();
+
+  if (isLoading || is_loading_user_data || latest_chats_isLoading) {
     return <SkeletonUserProfile />;
+  }
+
+  if (!loggedInUser?.onboarding_completed) {
+    router.push("/my-profile");
   }
 
   return (

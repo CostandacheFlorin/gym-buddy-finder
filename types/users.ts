@@ -33,4 +33,5 @@ export type UserUpdateProfilePayload = {
   city?: string;
   description?: string;
   pictures?: [{ _id: string; url: string }];
+  onboarding_completed?: boolean;
 };
