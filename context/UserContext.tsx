@@ -54,8 +54,6 @@ interface UserContextType {
   setBirthDate: React.Dispatch<React.SetStateAction<Date>>;
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
-  currentUserIdChat: string | null;
-  setCurrentUserIdChat: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -90,9 +88,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   const [birthDate, setBirthDate] = useState<Date>(new Date());
   const [email, setEmail] = useState<string>("");
   const [latestChats, setLatestChats] = useState([]);
-  const [currentUserIdChat, setCurrentUserIdChat] = useState<string | null>(
-    null
-  );
 
   const {
     data: user_data,
@@ -245,8 +240,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       latestChats,
       setLatestChats,
       latest_chats_isLoading,
-      setCurrentUserIdChat,
-      currentUserIdChat,
     }),
     [
       loggedInUser,
@@ -269,7 +262,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       is_loading_user_data,
       latestChats,
       latest_chats_isLoading,
-      currentUserIdChat,
     ]
   );
 
