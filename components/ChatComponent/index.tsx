@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { Bounce, toast } from "react-toastify";
 import { sendMessage } from "@/app/lib/mutations";
+import io from "socket.io-client";
 
 const ChatComponent = ({ userChatId }: { userChatId: string }) => {
   const { loggedInUser } = useUserContext();
@@ -19,6 +20,28 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
   const [user1, setUser1] = useState<User>();
   const [otherUser, setOtherUser] = useState<User>();
   const [message, setMessage] = useState<string>("");
+  const [socket, setSocket] = useState<any>(null);
+
+  useEffect(() => {
+    if (loggedInUser?._id && otherUser?._id) {
+      const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}/messages`, {
+        query: { userId: loggedInUser._id, otherUserId: otherUser?._id },
+      });
+
+      setSocket(newSocket);
+
+      // Listen for incoming messages
+      newSocket.on("receiveMessage", (newMessage) => {
+        setMessages((prevMessages) => [...prevMessages, newMessage.message]);
+      });
+
+      // Cleanup on unmount
+      return () => {
+        newSocket.off("receiveMessage");
+        newSocket.disconnect();
+      };
+    }
+  }, [loggedInUser?._id, otherUser?._id]);
 
   const {
     data: current_chat_data,
@@ -32,11 +55,24 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: sendMessage,
-    onSuccess: () => {
-      console.log("trimis");
+    onSuccess: (createdMessage) => {
+      if (socket) {
+        socket.emit("sendMessage", createdMessage);
+        setMessage("");
+      }
     },
     onError: (error: any) => {
-      console.log("fail");
+      toast.error(`Sending your message failed, try again later!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     },
   });
 
@@ -79,6 +115,15 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
       receiver: otherUser._id,
       content: message,
     });
+  };
+
+  const handleEnterKeyPress = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendMessageHandler();
+    }
   };
 
   if (current_chat_isLoading || current_chat_error) {
@@ -132,6 +177,7 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
           }}
           placeholder="Send a message.."
           className="flex-grow"
+          onKeyUp={handleEnterKeyPress}
         />
         <button
           className="border rounded-lg p-2 bg-yellow-400"

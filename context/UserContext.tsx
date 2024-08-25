@@ -185,9 +185,9 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   }, [latest_chats_data]);
 
   useEffect(() => {
-    if (user_error) {
-      showError(user_error, "user");
-    }
+    // if (user_error) {
+    //   showError(user_error, "user");
+    // }
 
     if (gym_related_interests_error) {
       showError(gym_related_interests_error, "gym related interests");
@@ -197,9 +197,9 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       showError(gym_unrelated_interests_error, "gym unrelated interests");
     }
 
-    if (latest_chats_error) {
-      showError(latest_chats_error, "gym unrelated interests");
-    }
+    // if (latest_chats_error) {
+    //   showError(latest_chats_error, "latest chats");
+    // }
   }, [
     user_error,
     gym_related_interests_error,
