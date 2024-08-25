@@ -4,9 +4,11 @@ import { UserUpdateProfilePayload } from "@/types/users";
 import { Bounce, toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { useUploadFile } from "./useUploadFile";
 
 const useMyProfile = () => {
   const [isOnboardingModalOpen, setIsOnboardingModalOpen] = useState(false);
+  const [newImageUrl, setNewImageUrl] = useState<string | null>(null);
 
   const {
     loggedInUser,
@@ -125,10 +127,25 @@ const useMyProfile = () => {
         (interest) => interest._id
       ),
       onboarding_completed: true,
+      pictures: [newImageUrl ? { url: newImageUrl } : loggedInUser.pictures[0]],
     };
 
     updateUserMutation({ user_id: loggedInUser._id, payload });
   };
+
+  console.log(newImageUrl);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      uploadFile(event.target.files[0]);
+    }
+  };
+  const { mutate: uploadFile, isPending: loadingUploadingFile } = useUploadFile(
+    (data: any) => {
+      setNewImageUrl(data.url);
+    },
+    () => {}
+  );
 
   return {
     selectCountry,
@@ -137,6 +154,10 @@ const useMyProfile = () => {
     handleOnboardingCloseModal,
     handleOnboardingOpenModal,
     isOnboardingModalOpen,
+    uploadFile,
+    loadingUploadingFile,
+    handleFileChange,
+    newImageUrl,
   };
 };
 

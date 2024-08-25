@@ -9,6 +9,8 @@ import calculateAge from "@/utils/getAgeFromBirthDate";
 import SkeletonProfile from "@/components/MyProfileSkeleton";
 import useMyProfile from "@/hooks/useMyProfile";
 import { useUserContext } from "@/context/UserContext";
+import Upload from "@/icons/Upload";
+import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 
 export default function MyProfile() {
   const {
@@ -40,6 +42,9 @@ export default function MyProfile() {
     submitUpdateUserProfile,
     handleOnboardingCloseModal,
     isOnboardingModalOpen,
+    loadingUploadingFile,
+    newImageUrl,
+    handleFileChange,
   } = useMyProfile();
   if (is_loading_user_data || !loggedInUser) {
     return <SkeletonProfile />;
@@ -52,13 +57,44 @@ export default function MyProfile() {
           My Profile
         </h1>
 
-        <div className="w-full flex items-center justify-center mb-6">
-          <Image
-            src="/images/cat.jpeg"
-            alt="Profile"
-            width={350}
-            height={350}
-          />
+        <div className="relative">
+          <div className="w-full flex items-center justify-center mb-6">
+            {loadingUploadingFile ? (
+              <LoadingSpinner />
+            ) : (
+              <Image
+                src={
+                  newImageUrl ||
+                  loggedInUser?.pictures[0]?.url ||
+                  "/images/cat.jpeg"
+                }
+                alt="Profile"
+                width={350}
+                height={350}
+              />
+            )}
+          </div>
+
+          <div className="flex items-center justify-center flex-col w-full">
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="absolute bottom-6 opacity-0 cursor-pointer"
+              id="fileInput"
+            />
+            <label
+              htmlFor="fileInput"
+              className="absolute flex items-center justify-center bottom-6  bg-white bg-opacity-30 w-[350px] px-4 py-2 rounded cursor-pointer hover:bg-opacity-60"
+            >
+              <Upload size={40} fill="#0033ff" />
+              <input
+                type="file"
+                id="fileInput"
+                onChange={handleFileChange}
+                className="hidden"
+              />
+            </label>
+          </div>
         </div>
 
         <div className="space-y-4">

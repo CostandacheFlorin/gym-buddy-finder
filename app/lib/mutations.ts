@@ -108,3 +108,18 @@ export const sendMessage = async ({
     throw error;
   }
 };
+
+export const upload = async (file: File): Promise<any> => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+    const { data } = await apiClient.post(`/files/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
