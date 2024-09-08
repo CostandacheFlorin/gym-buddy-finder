@@ -1,5 +1,6 @@
 import { useUserContext } from "@/context/UserContext";
 import { LatestChat } from "@/types/chat";
+import formatMessageTime from "@/utils/formatMessageTime";
 
 import Image from "next/image";
 
@@ -25,7 +26,7 @@ const ChatItem = ({ chat }: { chat: LatestChat }) => {
 
         <p>
           {chat.lastMessage
-            ? new Date(chat.lastMessage.timestamp).toDateString()
+            ? formatMessageTime(chat.lastMessage.timestamp)
             : null}
         </p>
       </div>

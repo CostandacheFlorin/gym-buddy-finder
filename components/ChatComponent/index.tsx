@@ -16,7 +16,6 @@ import io from "socket.io-client";
 const ChatComponent = ({ userChatId }: { userChatId: string }) => {
   const { loggedInUser, setLatestChats, refetchLatestChats } = useUserContext();
   const [messages, setMessages] = useState<Message[]>([]);
-  const [user1, setUser1] = useState<User>();
   const [otherUser, setOtherUser] = useState<User>();
   const [message, setMessage] = useState<string>("");
   const [socket, setSocket] = useState<any>(null);
@@ -100,7 +99,6 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
   useEffect(() => {
     if (current_chat_data) {
       setMessages(current_chat_data.messages);
-      setUser1(current_chat_data.user1);
       setOtherUser(current_chat_data.user2);
     }
   }, [current_chat_data]);
