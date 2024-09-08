@@ -15,6 +15,7 @@ import {
 } from "react";
 import { CITIES, COUNTRIES } from "@/dummy-data";
 import { Bounce, toast } from "react-toastify";
+import { LatestChat } from "@/types/chat";
 
 interface UserContextType {
   loggedInUser: User | null;
@@ -35,8 +36,8 @@ interface UserContextType {
   >;
   allGymUnrelatedInterests: Interest[];
   setAllGymUnrelatedInterests: React.Dispatch<React.SetStateAction<Interest[]>>;
-  latestChats: never[];
-  setLatestChats: React.Dispatch<React.SetStateAction<never[]>>;
+  latestChats: LatestChat[];
+  setLatestChats: React.Dispatch<React.SetStateAction<LatestChat[]>>;
   userGyms: string[];
   setUserGyms: React.Dispatch<React.SetStateAction<string[]>>;
   countries: typeof COUNTRIES;
@@ -89,7 +90,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   const [lastName, setLastName] = useState<string>("");
   const [birthDate, setBirthDate] = useState<Date>(new Date());
   const [email, setEmail] = useState<string>("");
-  const [latestChats, setLatestChats] = useState([]);
+  const [latestChats, setLatestChats] = useState<LatestChat[]>([]);
 
   const {
     data: user_data,

@@ -1,11 +1,11 @@
 import ChatItem from "../ChatItem";
-import { Chat } from "@/types/chat";
+import { LatestChat } from "@/types/chat";
 
 const ChatList = ({
   chats,
   onClick,
 }: {
-  chats: Chat[];
+  chats: LatestChat[];
   onClick: (chat: string) => void;
 }) => {
   return (
@@ -15,7 +15,6 @@ const ChatList = ({
           <button
             key={chat.otherUser._id}
             onClick={() => {
-              // @ts-expect-error fix types
               onClick(chat.otherUser._id);
             }}
           >

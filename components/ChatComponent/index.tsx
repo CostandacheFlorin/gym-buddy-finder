@@ -1,7 +1,6 @@
 import { getChatByUserId } from "@/app/lib/queries";
 import { QueryKeys } from "@/app/lib/queryKeys";
 import { useUserContext } from "@/context/UserContext";
-import { Chat } from "@/types/chat";
 import { Message } from "@/types/messages";
 import { User } from "@/types/users";
 import { useMutation, useQuery } from "@tanstack/react-query";

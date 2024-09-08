@@ -4,11 +4,10 @@ import { useParams, useRouter } from "next/navigation";
 
 import ChatList from "@/components/ChatList/ChatList";
 import ChatComponent from "@/components/ChatComponent";
-import { Chat } from "@/types/chat"; // Importing the Chat type
 import { useUserContext } from "@/context/UserContext";
 
 export default function ChatPageByUserId() {
-  const { userId } = useParams(); // Get the dynamic segment (userid) from the URL
+  const { userId } = useParams();
   const router = useRouter();
 
   const { latestChats } = useUserContext();

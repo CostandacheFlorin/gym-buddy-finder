@@ -1,8 +1,9 @@
 import { useUserContext } from "@/context/UserContext";
-import { Chat } from "@/types/chat";
+import { LatestChat } from "@/types/chat";
+
 import Image from "next/image";
 
-const ChatItem = ({ chat }: { chat: any }) => {
+const ChatItem = ({ chat }: { chat: LatestChat }) => {
   const { loggedInUser } = useUserContext();
 
   return (
