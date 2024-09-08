@@ -14,7 +14,7 @@ import { sendMessage } from "@/app/lib/mutations";
 import io from "socket.io-client";
 
 const ChatComponent = ({ userChatId }: { userChatId: string }) => {
-  const { loggedInUser } = useUserContext();
+  const { loggedInUser, setLatestChats, refetchLatestChats } = useUserContext();
   const [messages, setMessages] = useState<Message[]>([]);
   const [user1, setUser1] = useState<User>();
   const [otherUser, setOtherUser] = useState<User>();
@@ -33,10 +33,33 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
       newSocket.on("receiveMessage", (newMessage) => {
         setMessages((prevMessages) => [...prevMessages, newMessage.message]);
       });
+      newSocket.on("updateLatestChats", (newMessage: Message) => {
+        setLatestChats((prevChats) => {
+          const chatToUpdate = prevChats.find(
+            (chat) =>
+              chat.otherUser._id === newMessage.sender ||
+              chat.otherUser._id === newMessage.receiver
+          );
+
+          // if no chat is being found, that means a new chat has to be fetched
+          if (!chatToUpdate) {
+            refetchLatestChats();
+          }
+
+          // Map through the chats to return a new updated array
+          return prevChats.map((chat) =>
+            chat.otherUser._id === newMessage.sender ||
+            chat.otherUser._id === newMessage.receiver
+              ? { ...chat, lastMessage: newMessage }
+              : chat
+          );
+        });
+      });
 
       // Cleanup on unmount
       return () => {
         newSocket.off("receiveMessage");
+        newSocket.off("updateLatestChats");
         newSocket.disconnect();
       };
     }
