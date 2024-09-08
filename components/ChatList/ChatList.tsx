@@ -13,7 +13,6 @@ const ChatList = ({
       {chats.map((chat) => {
         return (
           <button
-            // @ts-expect-error fix types
             key={chat.otherUser._id}
             onClick={() => {
               // @ts-expect-error fix types

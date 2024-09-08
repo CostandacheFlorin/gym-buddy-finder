@@ -99,7 +99,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.getMe],
     queryFn: () => getMe(),
-    refetchOnWindowFocus: false,
   });
 
   const {
@@ -109,7 +108,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.fetchGymRelatedInterests],
     queryFn: () => fetchInterestsByType(InterestType.GYM_RELATED),
-    refetchOnWindowFocus: false,
   });
 
   const {
@@ -120,7 +118,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.getLatestChats],
     queryFn: () => getLatestChats(),
-    refetchOnWindowFocus: false,
   });
 
   const {
@@ -130,7 +127,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.fetchGymUnrelatedInterests],
     queryFn: () => fetchInterestsByType(InterestType.GYM_UNRELATED),
-    refetchOnWindowFocus: false,
   });
 
   // TO DO: Only fetch the basic data when the user is logged in.

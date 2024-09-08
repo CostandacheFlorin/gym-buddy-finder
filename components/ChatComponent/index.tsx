@@ -50,7 +50,6 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
   } = useQuery({
     queryKey: [QueryKeys.getMessagesBetweenUsers, userChatId],
     queryFn: () => getChatByUserId(userChatId),
-    refetchOnWindowFocus: false,
   });
 
   const { mutate, isPending } = useMutation({

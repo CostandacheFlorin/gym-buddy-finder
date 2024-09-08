@@ -28,7 +28,6 @@ const useBrowseUsers = () => {
         limit,
       });
     },
-    refetchOnWindowFocus: false,
     retry: 3,
     retryDelay: 100,
   });

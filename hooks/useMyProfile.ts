@@ -127,7 +127,11 @@ const useMyProfile = () => {
         (interest) => interest._id
       ),
       onboarding_completed: true,
-      pictures: [newImageUrl ? { url: newImageUrl } : loggedInUser.pictures[0]],
+      pictures: newImageUrl
+        ? [{ url: newImageUrl }]
+        : loggedInUser.pictures.length
+        ? [loggedInUser.pictures[0]]
+        : [],
     };
 
     updateUserMutation({ user_id: loggedInUser._id, payload });
