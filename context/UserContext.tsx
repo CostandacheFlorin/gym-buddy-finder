@@ -3,7 +3,7 @@ import { User } from "@/types/users";
 import { Interest, InterestType } from "@/types/interests";
 import { QueryKeys } from "@/app/lib/queryKeys";
 import { getMe, fetchInterestsByType, getLatestChats } from "@/app/lib/queries";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createContext,
   useContext,
@@ -16,6 +16,7 @@ import {
 import { CITIES, COUNTRIES } from "@/dummy-data";
 import { Bounce, toast } from "react-toastify";
 import { LatestChat } from "@/types/chat";
+import { logout } from "@/app/lib/mutations";
 
 interface UserContextType {
   loggedInUser: User | null;
@@ -57,6 +58,7 @@ interface UserContextType {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   refetchGetMe: () => void;
   refetchLatestChats: () => void;
+  logoutMutation: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -119,6 +121,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.getLatestChats],
     queryFn: () => getLatestChats(),
+    enabled: !!loggedInUser,
   });
 
   const {
@@ -131,6 +134,26 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   });
 
   // TO DO: Only fetch the basic data when the user is logged in.
+
+  const { mutate: logoutMutation } = useMutation({
+    mutationFn: logout,
+    onSuccess: () => {
+      window.location.reload();
+    },
+    onError: () => {
+      toast.error(`Failed logging out! Try again later!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    },
+  });
 
   const showError = useCallback((error: Error, entity: string) => {
     toast.error(`Error fetching ${entity}: ${error.message}`, {
@@ -243,6 +266,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       latest_chats_isLoading,
       refetchGetMe,
       refetchLatestChats,
+      logoutMutation,
     }),
     [
       loggedInUser,
@@ -267,6 +291,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       latest_chats_isLoading,
       refetchGetMe,
       refetchLatestChats,
+      logoutMutation,
     ]
   );
 

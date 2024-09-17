@@ -26,15 +26,15 @@ const UserProfile = ({
   }
 
   return (
-    <div className="flex h-screen w-full justify-center">
+    <div className="flex min-h-[90vh] w-full justify-center">
       <div className="bg-gray-100 w-full max-w-[550px] flex flex-col">
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex justify-center py-4">
           <Image
-            width={350}
-            height={350}
+            width={320}
+            height={320}
             src={user.pictures[0]?.url || "/images/cat.jpeg"}
             alt={`user picture`}
-            className="w-full h-auto"
+            className="w-full h-auto max-w-[320px]"
           />
         </div>
         <div className="flex flex-col flex-grow overflow-hidden p-4">
@@ -65,7 +65,7 @@ const UserProfile = ({
         </div>
         <div className="flex-shrink-0 p-4">
           <div className="flex gap-4 w-full justify-center">
-            <Tooltip text="Go to the previous person">
+            <Tooltip text="Previous person">
               <button
                 className="cursor-pointer p-4 flex items-center justify-center border-2 border-[#000] rounded-full max-w-max"
                 onClick={onPrevious}
@@ -89,7 +89,7 @@ const UserProfile = ({
                 <ThumbsUpButton size={40} color="#00ff00" />
               </button>
             </Tooltip>
-            <Tooltip text="Go to the next person">
+            <Tooltip text="Next person">
               <button
                 className="p-4 flex items-center justify-center border-2 border-[#000] rounded-full max-w-max"
                 onClick={onNext}

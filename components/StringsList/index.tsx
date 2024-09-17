@@ -50,7 +50,7 @@ const StringsList = ({
         ))}
       </div>
 
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-3 flex-col items-center md:flex-row:">
         <h3>{`Add a new ${name}`}</h3>
         <input
           type="text"

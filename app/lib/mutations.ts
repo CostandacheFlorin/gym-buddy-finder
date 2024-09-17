@@ -25,6 +25,22 @@ export const login = async ({
   }
 };
 
+export const logout = async () => {
+  try {
+    await apiClient.post(
+      "/auth/logout",
+      {},
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const register = async (payload: Partial<User>): Promise<void> => {
   try {
     await apiClient.post(`/auth/register`, payload, {

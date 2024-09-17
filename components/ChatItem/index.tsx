@@ -34,9 +34,9 @@ const ChatItem = ({ chat }: { chat: LatestChat }) => {
       <div>
         {chat?.lastMessage ? (
           chat.lastMessage.sender === loggedInUser?._id ? (
-            <p>You: {chat.lastMessage.content}</p>
+            <p className="truncate">You: {chat.lastMessage.content}</p>
           ) : (
-            <p>{`${chat.otherUser.first_name}: ${chat.lastMessage.content}`}</p>
+            <p className="truncate">{`${chat.otherUser.first_name}: ${chat.lastMessage.content}`}</p>
           )
         ) : null}
       </div>

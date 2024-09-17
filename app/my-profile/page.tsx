@@ -69,8 +69,9 @@ export default function MyProfile() {
                   "/images/cat.jpeg"
                 }
                 alt="Profile"
-                width={350}
-                height={350}
+                width={320}
+                height={320}
+                className="w-full h-auto max-w-[320px]"
               />
             )}
           </div>
@@ -79,12 +80,12 @@ export default function MyProfile() {
             <input
               type="file"
               onChange={handleFileChange}
-              className="absolute bottom-6 opacity-0 cursor-pointer"
+              className="absolute bottom-6 opacity-0 cursor-pointer max-w-[320px]"
               id="fileInput"
             />
             <label
               htmlFor="fileInput"
-              className="absolute flex items-center justify-center bottom-6  bg-white bg-opacity-30 w-[350px] px-4 py-2 rounded cursor-pointer hover:bg-opacity-60"
+              className="absolute flex items-center justify-center bottom-6  bg-white bg-opacity-30 w-[320px] px-4 py-2 rounded cursor-pointer hover:bg-opacity-60"
             >
               <Upload size={40} fill="#0033ff" />
               <input
