@@ -73,7 +73,8 @@ export default function Navigation() {
                 <Image
                   className="rounded-full"
                   src={
-                    loggedInUser.pictures[0].url ?? "/images/default-avatar.jpg"
+                    loggedInUser.pictures[0]?.url ??
+                    "/images/default-avatar.jpg"
                   }
                   alt="User profile"
                   width={36}

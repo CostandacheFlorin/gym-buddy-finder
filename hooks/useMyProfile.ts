@@ -23,6 +23,7 @@ const useMyProfile = () => {
     countries,
     cities,
     setCities,
+    refetchGetMe,
   } = useUserContext();
 
   useEffect(() => {
@@ -45,6 +46,8 @@ const useMyProfile = () => {
         theme: "light",
         transition: Bounce,
       });
+      handleOnboardingCloseModal();
+      refetchGetMe();
     },
     onError: () => {
       toast.error(`Error updating profile! Try again later!`, {
@@ -136,8 +139,6 @@ const useMyProfile = () => {
 
     updateUserMutation({ user_id: loggedInUser._id, payload });
   };
-
-  console.log(newImageUrl);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {

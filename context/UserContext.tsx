@@ -133,8 +133,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     queryFn: () => fetchInterestsByType(InterestType.GYM_UNRELATED),
   });
 
-  // TO DO: Only fetch the basic data when the user is logged in.
-
   const { mutate: logoutMutation } = useMutation({
     mutationFn: logout,
     onSuccess: () => {

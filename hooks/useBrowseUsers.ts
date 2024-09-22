@@ -6,14 +6,19 @@ import { User } from "@/types/users";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
+import { UsersPerPage } from "@/constants";
 
 const useBrowseUsers = () => {
   const [currentUserIndex, setCurrentUserIndex] = useState<number>(0);
+  const [currentMatchedUserIndex, setCurrentMatchedUserIndex] =
+    useState<number>(0);
+
   const [users, setUsers] = useState<User[]>([]);
   const [skip, setSkip] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(100);
+  const [limit, setLimit] = useState<number>(UsersPerPage);
   const [showSuccessfulMatchModal, setShowSuccesfulMatchModal] =
     useState(false);
+
   const {
     data: fetchedUsers = [],
     error,
@@ -66,21 +71,16 @@ const useBrowseUsers = () => {
     }
   }, [isError, error]);
 
-  // TODO: INFINITE SCROLLING
+  useEffect(() => {
+    if (currentUserIndex >= limit - 3) {
+      setSkip((prevSkip) => prevSkip + UsersPerPage);
+      setLimit((prevLimit) => prevLimit + UsersPerPage);
+    }
+  }, [currentUserIndex, limit]);
 
-  // useEffect(() => {
-  //   if (currentUserIndex > users.length - 1) {
-  //     console.log("USE EFFECT INCREMENT SKIP");
-
-  //     setSkip((prevSkip) => prevSkip + 1);
-  //     setLimit((prevLimit) => prevLimit + 1);
-  //   }
-  // }, [currentUserIndex, users.length]);
-
-  // useEffect(() => {
-  //   refetchUsersToMatch();
-  //   console.log("USE EFFECT REFETCH");
-  // }, [skip, limit, refetchUsersToMatch]);
+  useEffect(() => {
+    refetchUsersToMatch();
+  }, [skip, limit, refetchUsersToMatch]);
 
   const showError = (error: Error) =>
     toast.error(
@@ -140,13 +140,12 @@ const useBrowseUsers = () => {
 
   const onMatch = (user_id: string) => {
     matchUserMutation({ user_id, status: MatchStatus.MATCHED });
-    removeUserFromUsersList(user_id);
+    setCurrentMatchedUserIndex(currentUserIndex);
     onNext();
   };
 
   const onReject = (user_id: string) => {
     matchUserMutation({ user_id, status: MatchStatus.REJECTED });
-    removeUserFromUsersList(user_id);
     onNext();
   };
 
@@ -163,6 +162,7 @@ const useBrowseUsers = () => {
     showError,
     showSuccessfulMatchModal,
     setShowSuccesfulMatchModal,
+    currentMatchedUserIndex,
   };
 };
 

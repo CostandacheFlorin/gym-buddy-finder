@@ -21,6 +21,7 @@ export default function Browse() {
     isLoading,
     showSuccessfulMatchModal,
     setShowSuccesfulMatchModal,
+    currentMatchedUserIndex,
   } = useBrowseUsers();
 
   const redirectToMatchedPartner = () => {
@@ -45,8 +46,8 @@ export default function Browse() {
         onClose={() => {
           setShowSuccesfulMatchModal(false);
         }}
-        matchName={users[currentUserIndex]?.first_name}
-        matchAvatar={users[currentUserIndex]?.pictures[0]?.url}
+        matchName={users[currentMatchedUserIndex]?.first_name}
+        matchAvatar={users[currentMatchedUserIndex]?.pictures[0]?.url}
         userAvatar={
           loggedInUser?.pictures[0]?.url ?? "images/default-avatar.jpg"
         }
