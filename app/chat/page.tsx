@@ -61,9 +61,12 @@ export default function ChatPage() {
     router.push(`/chat/${id}`);
   };
   return (
-    <div className="flex h-screen w-screen">
+    <div
+      className="flex w-screen bg-gray-900"
+      style={{ minHeight: "calc(100vh - 4rem)" }}
+    >
       <div className="w-1/4 p-4 overflow-y-auto">
-        <h2 className="text-md font-bold mb-4">Chats</h2>
+        <h2 className="text-md font-bold mb-4 text-green-400">Chats</h2>
         <ChatList chats={latestChats} onClick={redirectToChatUserId} />
       </div>
     </div>

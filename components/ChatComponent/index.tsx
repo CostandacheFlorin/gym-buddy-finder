@@ -150,7 +150,10 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
   }
 
   return (
-    <div className="flex flex-col h-[85vh]">
+    <div
+      className="flex flex-col p-4 bg-gray-700"
+      style={{ minHeight: "calc(100vh - 4rem)" }}
+    >
       <div className="flex gap-3 items-center mb-4">
         <Image
           width={40}
@@ -159,7 +162,7 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
           alt={`${otherUser?.first_name} ${otherUser?.last_name}'s picture`}
           className="rounded-full"
         />
-        <p className="font-bold">{`${otherUser?.first_name} ${otherUser?.last_name}`}</p>
+        <p className="font-bold text-green-500">{`${otherUser?.first_name} ${otherUser?.last_name}`}</p>
       </div>
 
       <div className="flex flex-col flex-grow overflow-y-auto">
@@ -173,7 +176,7 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
             } mb-2`}
           >
             <div
-              className={`shadow-md p-2 rounded-xl max-w-[80%] ${
+              className={`shadow-md px-2 py-3 rounded-xl min-w-20 max-w-[80%] ${
                 message.sender === loggedInUser?._id
                   ? "bg-teal-300 text-right"
                   : "bg-gray-200 text-left"
@@ -195,11 +198,11 @@ const ChatComponent = ({ userChatId }: { userChatId: string }) => {
             setMessage(e.target.value);
           }}
           placeholder="Send a message.."
-          className="flex-grow"
+          className="flex-grow custom-input"
           onKeyUp={handleEnterKeyPress}
         />
         <button
-          className="border rounded-lg p-2 bg-yellow-400"
+          className="bg-green-500 w-28 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors"
           onClick={sendMessageHandler}
         >
           Send

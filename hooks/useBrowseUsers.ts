@@ -3,7 +3,7 @@ import { fetchUsersToMatch } from "@/app/lib/queries";
 import { QueryKeys } from "@/app/lib/queryKeys";
 import { MatchStatus } from "@/types/match";
 import { User } from "@/types/users";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 
@@ -12,8 +12,8 @@ const useBrowseUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [skip, setSkip] = useState<number>(0);
   const [limit, setLimit] = useState<number>(100);
-
-  const queryClient = useQueryClient();
+  const [showSuccessfulMatchModal, setShowSuccesfulMatchModal] =
+    useState(false);
   const {
     data: fetchedUsers = [],
     error,
@@ -36,19 +36,7 @@ const useBrowseUsers = () => {
     mutationFn: matchUser,
     onSuccess: (data) => {
       if (data.status === MatchStatus.MATCHED) {
-        // TODO: to redirect to the chat
-
-        toast.success(`You have matched!`, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+        setShowSuccesfulMatchModal(true);
       }
     },
     onError: () => {
@@ -173,6 +161,8 @@ const useBrowseUsers = () => {
     isError,
     error,
     showError,
+    showSuccessfulMatchModal,
+    setShowSuccesfulMatchModal,
   };
 };
 

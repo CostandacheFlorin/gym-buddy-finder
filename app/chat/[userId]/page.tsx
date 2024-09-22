@@ -17,16 +17,18 @@ export default function ChatPageByUserId() {
   };
 
   return (
-    <div className="flex h-screen w-screen">
+    <div
+      className="flex w-screen bg-gray-900"
+      style={{ minHeight: "calc(100vh - 4rem)" }}
+    >
       {/* Sidebar for chats */}
       <div className="w-1/4 p-4 overflow-y-auto">
-        <h2 className="text-md font-bold mb-4">Chats</h2>
+        <h2 className="text-md font-bold mb-4 text-green-400">Chats</h2>
         <ChatList chats={latestChats} onClick={redirectToChatUserId} />
       </div>
 
       {/* Main chat area */}
-      <div className="w-3/4 bg-gray-100 p-4 overflow-y-auto">
-        <h2 className="text-lg font-bold mb-4">Chat Window</h2>
+      <div className="w-3/4 bg-gray-100 overflow-y-auto">
         <ChatComponent userChatId={userId as string} />
       </div>
     </div>

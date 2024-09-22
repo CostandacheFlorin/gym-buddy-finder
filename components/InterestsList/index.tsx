@@ -34,26 +34,28 @@ const InterestsList = ({
   const userInterestIds = new Set(interests.map((interest) => interest._id));
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-6 bg-gray-900 rounded-lg">
       <div className="flex flex-wrap -mx-2">
         {interests.map((interest: Interest) => (
           <div
             key={interest._id}
-            className="bg-white px-4 py-2 rounded-md shadow-sm m-2 flex items-center justify-between"
+            className="bg-gray-800 hover:bg-gray-700 transition-colors group  px-4 py-2 rounded-md shadow-sm m-2 flex items-center justify-between"
           >
-            <div className="text-black">{interest.name}</div>
+            <div className="text-green-400 font-medium">{interest.name}</div>
             <button
-              className="text-red-500 ml-2 rounded-full p-2 transition-colors flex items-center justify-center"
+              className="text-green-400 opacity-0 group-hover:opacity-100 transition-opacity hover:text-green-300 p-1 rounded-full hover:bg-gray-600"
               onClick={() => removeInterest(interest._id)}
             >
-              <XIcon fill="red" />
+              <XIcon fill="red" size={16} />
             </button>
           </div>
         ))}
       </div>
 
       <div className="flex gap-3 items-center">
-        <h3>Select to add a new interest </h3>
+        <h3 className="text-green-400 font-semibold">
+          Select to add a new interest{" "}
+        </h3>
         <Select
           showSearch
           placeholder="Select an interest"
@@ -69,6 +71,7 @@ const InterestsList = ({
               label: interest.name,
               value: interest._id,
             }))}
+          className="custom-select"
         />
       </div>
     </div>

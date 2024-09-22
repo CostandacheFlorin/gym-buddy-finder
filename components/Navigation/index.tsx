@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Users, MessageSquare, User, Moon, Sun, LogOut } from "lucide-react";
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [theme, setTheme] = useState("dark"); // to be refactored
+  const [theme, setTheme] = useState("dark"); // TO DO: to be refactored when adding theme support
   const pathname = usePathname();
   const { loggedInUser, logoutMutation } = useUserContext();
 
@@ -28,7 +28,7 @@ export default function Navigation() {
   }
 
   return (
-    <nav className="bg-gray-900 h-16 text-white shadow-md">
+    <nav className="bg-gray-900 h-16 text-white shadow-md border-b border-white">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -70,10 +70,14 @@ export default function Navigation() {
                 aria-haspopup="true"
               >
                 <span className="sr-only">Open user menu</span>
-                <img
-                  className="h-8 w-8 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                <Image
+                  className="rounded-full"
+                  src={
+                    loggedInUser.pictures[0].url ?? "/images/default-avatar.jpg"
+                  }
                   alt="User profile"
+                  width={36}
+                  height={36}
                 />
               </button>
               {isMenuOpen && (

@@ -21,7 +21,7 @@ const ObjectsList = ({
           if (propertyToHover) {
             return (
               <Tooltip key={item} text={item[propertyToHover]}>
-                <div className="p-1 border-2 rounded">
+                <div className="p-2 text-green-500 border-gray-600 border-2 rounded">
                   {item[propertyToShow]}
                 </div>
               </Tooltip>
@@ -29,7 +29,10 @@ const ObjectsList = ({
           }
 
           return (
-            <div key={item} className="p-1 border-2 rounded">
+            <div
+              key={item}
+              className="p-2 border-2 rounded text-green-500 border-gray-600"
+            >
               {propertyToShow === "none" ? item : item[propertyToShow]}
             </div>
           );

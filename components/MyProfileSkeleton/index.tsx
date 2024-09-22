@@ -2,7 +2,10 @@ import React from "react";
 
 const SkeletonProfile = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center bg-[#FFF5E1]">
+    <main
+      className="flex flex-col items-center bg-[#FFF5E1]"
+      style={{ minHeight: "calc(100vh - 4rem)" }}
+    >
       <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6 space-y-6">
         <h1 className="text-center text-[#0C1844] text-2xl font-bold mb-4">
           My Profile

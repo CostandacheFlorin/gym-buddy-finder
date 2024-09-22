@@ -8,7 +8,7 @@ const ChatItem = ({ chat }: { chat: LatestChat }) => {
   const { loggedInUser } = useUserContext();
 
   return (
-    <div className=" shadow-lg p-2">
+    <div className=" shadow-lg p-2 text-white border border-white rounded-lg">
       <div className="flex justify-between items-center">
         <div className="flex gap-3 items-center">
           <Image
@@ -34,9 +34,11 @@ const ChatItem = ({ chat }: { chat: LatestChat }) => {
       <div>
         {chat?.lastMessage ? (
           chat.lastMessage.sender === loggedInUser?._id ? (
-            <p className="truncate">You: {chat.lastMessage.content}</p>
+            <p className="truncate text-left p-2 text-slate-300">
+              You: {chat.lastMessage.content}
+            </p>
           ) : (
-            <p className="truncate">{`${chat.otherUser.first_name}: ${chat.lastMessage.content}`}</p>
+            <p className="truncate text-left p-2 text-slate-300">{`${chat.otherUser.first_name}: ${chat.lastMessage.content}`}</p>
           )
         ) : null}
       </div>

@@ -6,6 +6,7 @@ import SkeletonUserProfile from "@/components/SkeletonUserProfile";
 
 import useBrowseUsers from "@/hooks/useBrowseUsers";
 import { useUserContext } from "@/context/UserContext";
+import MatchModal from "@/components/MatchModal";
 
 export default function Browse() {
   const router = useRouter();
@@ -18,7 +19,13 @@ export default function Browse() {
     onMatch,
     onReject,
     isLoading,
+    showSuccessfulMatchModal,
+    setShowSuccesfulMatchModal,
   } = useBrowseUsers();
+
+  const redirectToMatchedPartner = () => {
+    router.push(`/chat/${users[currentUserIndex]._id}`);
+  };
 
   const { loggedInUser, is_loading_user_data, latest_chats_isLoading } =
     useUserContext();
@@ -33,6 +40,18 @@ export default function Browse() {
 
   return (
     <div>
+      <MatchModal
+        isOpen={showSuccessfulMatchModal}
+        onClose={() => {
+          setShowSuccesfulMatchModal(false);
+        }}
+        matchName={users[currentUserIndex]?.first_name}
+        matchAvatar={users[currentUserIndex]?.pictures[0]?.url}
+        userAvatar={
+          loggedInUser?.pictures[0]?.url ?? "images/default-avatar.jpg"
+        }
+        onStartMessaging={redirectToMatchedPartner}
+      />
       {users.length > 0 && (
         <UserProfile
           onNext={onNext}

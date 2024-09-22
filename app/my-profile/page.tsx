@@ -51,8 +51,8 @@ export default function MyProfile() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center bg-[#FFF5E1]">
-      <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6 space-y-6">
+    <main className="flex min-h-screen flex-col items-center bg-gray-900">
+      <div className="w-full max-w-2xl bg-gray-800 shadow-md rounded-lg p-6 space-y-6 text-white">
         <h1 className="text-center text-[#0C1844] text-2xl font-bold mb-4">
           My Profile
         </h1>
@@ -99,13 +99,13 @@ export default function MyProfile() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-3xl">{`${firstName} ${calculateAge(
+          <h2 className="text-3xl text-green-400">{`${firstName}, ${calculateAge(
             new Date(birthDate)
           )}`}</h2>
 
-          <h2 className="text-black font-bold text-lg">Location</h2>
+          <h2 className="text-white font-bold text-lg">Location</h2>
           <div className="space-y-2">
-            <h3 className="text-gray-700">Country</h3>
+            <h3 className="text-white font-bold">Country</h3>
             <Select
               showSearch
               placeholder="Choose a country"
@@ -115,36 +115,40 @@ export default function MyProfile() {
                 label: country.name,
                 value: country.name,
               }))}
+              style={{ minWidth: "200px" }}
+              className="custom-select"
             />
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-gray-700">City</h3>
+            <h3 className="text-white font-bold">City</h3>
             <Select
               showSearch
               placeholder="Choose a city"
               value={city}
               onChange={selectCity}
+              style={{ minWidth: "200px" }}
               options={cities.map((city) => ({
                 label: city.name,
                 value: city.name,
               }))}
+              className="custom-select"
             />
           </div>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-black font-bold text-lg">Description</h2>
+          <h2 className="text-white font-bold text-lg">Description</h2>
           <TextArea
             rows={8}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="p-2 border border-gray-300 rounded-md shadow-sm w-full"
+            className="p-2 border border-gray-300 rounded-md shadow-sm w-full custom-input"
           />
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-black font-bold text-lg">
+          <h2 className="text-white font-bold text-lg">
             Gym Related Interests
           </h2>
           <InterestsList
@@ -156,7 +160,7 @@ export default function MyProfile() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-black font-bold text-lg">
+          <h2 className="text-white font-bold text-lg">
             Gym Unrelated Interests
           </h2>
           <InterestsList
@@ -168,13 +172,13 @@ export default function MyProfile() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-black font-bold text-lg">Gyms</h2>
+          <h2 className="text-white font-bold text-lg">Gyms</h2>
           <StringsList strings={userGyms} setStrings={setUserGyms} name="gym" />
         </div>
 
         <button
           onClick={submitUpdateUserProfile}
-          className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 transition-colors"
+          className="w-full py-3 bg-green-500 text-white font-semibold rounded-md shadow-md hover:bg-green-600 transition-colors"
         >
           Save Profile
         </button>
