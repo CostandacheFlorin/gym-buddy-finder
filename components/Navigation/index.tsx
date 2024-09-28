@@ -98,7 +98,7 @@ export default function Navigation() {
                     <User className="inline-block w-5 h-5 mr-2" />
                     Your Profile
                   </Link>
-                  <button
+                  {/* <button
                     onClick={() =>
                       setTheme(theme === "dark" ? "light" : "dark")
                     }
@@ -111,7 +111,7 @@ export default function Navigation() {
                       <Moon className="inline-block w-5 h-5 mr-2" />
                     )}
                     {theme === "dark" ? "Light Mode" : "Dark Mode"}
-                  </button>
+                  </button> */}
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
