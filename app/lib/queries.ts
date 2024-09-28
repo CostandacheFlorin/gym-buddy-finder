@@ -3,6 +3,7 @@
 import { User } from "@/types/users";
 
 import apiClient from "./axiosConfig";
+import axios from "axios";
 
 // TODO: work on the catch
 
@@ -60,6 +61,18 @@ export const getChatByUserId = async (user_id: string) => {
     }
     const { data } = await apiClient.get(`/messages/${user_id}`);
     return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCountriesAndCities = async () => {
+  try {
+    //@ts-ignore
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_COUNTRIES_API}/countries`
+    );
+    return data?.data;
   } catch (error) {
     throw error;
   }

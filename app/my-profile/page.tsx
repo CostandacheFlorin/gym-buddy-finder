@@ -111,7 +111,7 @@ export default function MyProfile() {
               placeholder="Choose a country"
               value={country}
               onChange={selectCountry}
-              options={countries.map((country) => ({
+              options={countries.map((country: any) => ({
                 label: country.name,
                 value: country.name,
               }))}
@@ -128,7 +128,7 @@ export default function MyProfile() {
               value={city}
               onChange={selectCity}
               style={{ minWidth: "200px" }}
-              options={cities.map((city) => ({
+              options={cities.map((city: any) => ({
                 label: city.name,
                 value: city.name,
               }))}

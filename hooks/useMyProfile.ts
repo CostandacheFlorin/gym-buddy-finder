@@ -74,8 +74,12 @@ const useMyProfile = () => {
   const selectCountry = (name: string) => {
     setCountry(name);
     setCity(undefined);
-    const foundCountry = countries.find((country) => country.name === name);
-    setCities(cities.filter((city) => city.country === foundCountry?.name));
+    // const foundCountry = countries.find(
+    //   (country: any) => country.name === name
+    // );
+    // setCities(
+    //   cities.filter((city: any) => city.country === foundCountry?.name)
+    // );
   };
 
   const selectCity = (id: string) => {

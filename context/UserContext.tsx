@@ -2,7 +2,12 @@
 import { User } from "@/types/users";
 import { Interest, InterestType } from "@/types/interests";
 import { QueryKeys } from "@/app/lib/queryKeys";
-import { getMe, fetchInterestsByType, getLatestChats } from "@/app/lib/queries";
+import {
+  getMe,
+  fetchInterestsByType,
+  getLatestChats,
+  getCountriesAndCities,
+} from "@/app/lib/queries";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createContext,
@@ -13,7 +18,6 @@ import {
   useMemo,
   useCallback,
 } from "react";
-import { CITIES, COUNTRIES } from "@/dummy-data";
 import { Bounce, toast } from "react-toastify";
 import { LatestChat } from "@/types/chat";
 import { logout } from "@/app/lib/mutations";
@@ -41,9 +45,10 @@ interface UserContextType {
   setLatestChats: React.Dispatch<React.SetStateAction<LatestChat[]>>;
   userGyms: string[];
   setUserGyms: React.Dispatch<React.SetStateAction<string[]>>;
-  countries: typeof COUNTRIES;
-  cities: typeof CITIES;
-  setCities: React.Dispatch<React.SetStateAction<typeof CITIES>>;
+  countries: string[];
+  cities: string[];
+  setCities: React.Dispatch<React.SetStateAction<string[]>>;
+  setCountries: React.Dispatch<React.SetStateAction<string[]>>;
   gym_related_interests_isLoading: boolean;
   gym_unrelated_interests_isLoading: boolean;
   latest_chats_isLoading: boolean;
@@ -85,8 +90,8 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     Interest[]
   >([]);
   const [userGyms, setUserGyms] = useState<string[]>([]);
-  const [cities, setCities] = useState(CITIES);
-  const [countries] = useState(COUNTRIES);
+  const [cities, setCities] = useState<string[]>([]);
+  const [countries, setCountries] = useState<string[]>([]);
 
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -102,6 +107,15 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.getMe],
     queryFn: () => getMe(),
+  });
+
+  const {
+    data: countries_data,
+    error: countries_error,
+    isLoading: is_loading_countries,
+  } = useQuery({
+    queryKey: [QueryKeys.getCountriesAndCities],
+    queryFn: () => getCountriesAndCities(),
   });
 
   const {
@@ -202,6 +216,33 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   }, [latest_chats_data]);
 
   useEffect(() => {
+    if (countries_data) {
+      setCountries(
+        countries_data.map((country_data: any, index: number) => {
+          return {
+            id: `${index}`,
+            name: country_data.country,
+          };
+        })
+      );
+    }
+  }, [countries_data]);
+
+  useEffect(() => {
+    if (country && countries_data) {
+      const selectedCountryData = countries_data.find(
+        (country_data: any) => country_data.country === country
+      );
+
+      setCities(
+        selectedCountryData?.cities?.map((city: string, index: number) => {
+          return { id: `${index}`, country, name: city };
+        }) || []
+      );
+    }
+  }, [country, countries_data]);
+
+  useEffect(() => {
     // if (user_error) {
     //   showError(user_error, "user");
     // }
@@ -248,6 +289,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       countries,
       cities,
       setCities,
+      setCountries,
       gym_related_interests_isLoading,
       gym_unrelated_interests_isLoading,
       firstName,

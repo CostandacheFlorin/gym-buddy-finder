@@ -6,4 +6,5 @@ export const QueryKeys = {
   getLatestChats: "getLatestChats",
   getChatByUserId: "getChatByUserId",
   getMessagesBetweenUsers: "getMessagesBetweenUsers",
+  getCountriesAndCities: "getCountriesAndCities",
 };
