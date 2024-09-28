@@ -65,16 +65,16 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-semibold text-center text-gray-700">
+    <div className="flex items-center justify-center min-h-screen bg-gray-800">
+      <div className="w-full max-w-md p-8 space-y-6 bg-gray-900 shadow-lg rounded-lg">
+        <h1 className="text-2xl font-semibold text-center text-green-400">
           Register
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="first_name"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               First Name
             </label>
@@ -84,13 +84,13 @@ export default function RegisterPage() {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="last_name"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               Last Name
             </label>
@@ -100,13 +100,13 @@ export default function RegisterPage() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="birth_date"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               Birth Date
             </label>
@@ -115,14 +115,19 @@ export default function RegisterPage() {
               id="birth_date"
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
+              min="1920-01-01"
+              max="2010-12-31"
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm appearance-none"
+              style={{
+                colorScheme: "dark", // This ensures the calendar itself matches a dark theme.
+              }}
             />
           </div>
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               Email
             </label>
@@ -132,13 +137,13 @@ export default function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
             />
           </div>
           <div>
             <label
               htmlFor="gender"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               Gender
             </label>
@@ -147,7 +152,7 @@ export default function RegisterPage() {
               value={gender}
               onChange={(e) => setGender(e.target.value as Gender)}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
             >
               <option value="" disabled>
                 Select gender
@@ -159,7 +164,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               Password
             </label>
@@ -170,7 +175,7 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
               />
               <button
                 type="button"
@@ -178,9 +183,9 @@ export default function RegisterPage() {
                 className="absolute inset-y-0 right-0 flex items-center pr-3"
               >
                 {showPassword ? (
-                  <HiEyeOff className="w-5 h-5 text-gray-500" />
+                  <HiEyeOff className="w-5 h-5 text-green-400" />
                 ) : (
-                  <HiEye className="w-5 h-5 text-gray-500" />
+                  <HiEye className="w-5 h-5 text-green-400" />
                 )}
               </button>
             </div>
@@ -188,7 +193,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="confirm_password"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               Confirm Password
             </label>
@@ -199,7 +204,7 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
               />
               <button
                 type="button"
@@ -207,20 +212,20 @@ export default function RegisterPage() {
                 className="absolute inset-y-0 right-0 flex items-center pr-3"
               >
                 {showConfirmPassword ? (
-                  <HiEyeOff className="w-5 h-5 text-gray-500" />
+                  <HiEyeOff className="w-5 h-5 text-green-400" />
                 ) : (
-                  <HiEye className="w-5 h-5 text-gray-500" />
+                  <HiEye className="w-5 h-5 text-green-400" />
                 )}
               </button>
             </div>
           </div>
           <button
             type="submit"
-            disabled={isPending} // Disable button while pending
+            disabled={isPending}
             className={`w-full py-2 px-4 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
               isPending
-                ? "bg-indigo-300 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700"
+                ? "bg-green-700 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700"
             } text-white`}
           >
             {isPending ? "Registering..." : "Register"}
@@ -229,11 +234,11 @@ export default function RegisterPage() {
           {passwordError && (
             <p className="text-red-500 text-sm">{passwordError}</p>
           )}
-          <p className="text-center text-sm text-gray-600">
+          <p className="text-center text-sm text-green-400">
             Already have an account?{" "}
             <Link
               href="/login"
-              className="text-indigo-600 hover:text-indigo-700"
+              className="text-green-400 hover:text-green-300 underline"
             >
               Log in
             </Link>

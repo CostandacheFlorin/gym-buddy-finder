@@ -21,17 +21,17 @@ const ChatItem = ({ chat }: { chat: LatestChat }) => {
             className="rounded-full"
           />
 
-          <p>{`${chat.otherUser.first_name} ${chat.otherUser.last_name}`}</p>
+          <p className="hidden md:block">{`${chat.otherUser.first_name} ${chat.otherUser.last_name}`}</p>
         </div>
 
-        <p>
+        <p className="hidden md:block">
           {chat.lastMessage
             ? formatMessageTime(chat.lastMessage.timestamp)
             : null}
         </p>
       </div>
 
-      <div>
+      <div className="hidden md:block">
         {chat?.lastMessage ? (
           chat.lastMessage.sender === loggedInUser?._id ? (
             <p className="truncate text-left p-2 text-slate-300">

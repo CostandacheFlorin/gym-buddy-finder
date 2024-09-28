@@ -16,6 +16,8 @@ export default function Navigation() {
     { name: "Browse", href: "/browse", icon: Users },
     { name: "Chats", href: "/chat", icon: MessageSquare },
   ];
+
+  const routesWithoutNavigation = ["/login", "/register"];
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleLogout = () => {
@@ -23,7 +25,7 @@ export default function Navigation() {
   };
 
   // Don't render navigation on login page or when not authenticated
-  if (pathname === "/login" || !loggedInUser) {
+  if (routesWithoutNavigation.includes(pathname) || !loggedInUser) {
     return null;
   }
 

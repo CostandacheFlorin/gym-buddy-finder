@@ -35,16 +35,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
-        <h1 className="text-2xl font-semibold text-center text-gray-700">
+    <div className="flex items-center justify-center min-h-screen bg-gray-800">
+      <div className="w-full max-w-md p-8 space-y-6 bg-gray-900 shadow-lg rounded-lg">
+        <h1 className="text-2xl font-semibold text-center text-green-400">
           Login
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               Email
             </label>
@@ -54,13 +54,13 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
             />
           </div>
           <div className="relative">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-600"
+              className="block text-sm font-medium text-green-400"
             >
               Password
             </label>
@@ -70,7 +70,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
             />
             <button
               type="button"
@@ -78,29 +78,29 @@ export default function LoginPage() {
               className="absolute top-8 right-0 flex items-center pr-3"
             >
               {showPassword ? (
-                <HiEyeOff className="h-5 w-5 text-gray-500" />
+                <HiEyeOff className="h-5 w-5 text-green-400" />
               ) : (
-                <HiEye className="h-5 w-5 text-gray-500" />
+                <HiEye className="h-5 w-5 text-green-400" />
               )}
             </button>
           </div>
           <button
             type="submit"
-            disabled={isPending} // Disable button while pending
-            className={`w-full py-2 px-4 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+            disabled={isPending}
+            className={`w-full py-2 px-4 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-400 ${
               isPending
-                ? "bg-indigo-300 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700"
+                ? "bg-green-700 cursor-not-allowed"
+                : "bg-green-600 hover:bg-green-700"
             } text-white`}
           >
             {isPending ? "Logging in..." : "Log in"}
           </button>
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          <p className="text-center text-sm text-gray-600">
-            {"Don't have an account?"}
+          <p className="text-center text-sm text-green-400">
+            {"Don't have an account? "}
             <Link
               href="/register"
-              className="text-indigo-600 hover:text-indigo-700"
+              className="text-green-400 hover:text-green-300 underline"
             >
               Register here
             </Link>
