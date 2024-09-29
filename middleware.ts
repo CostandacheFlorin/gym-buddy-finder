@@ -9,6 +9,7 @@ export function middleware(request: NextRequest) {
 
   // Allow access to public routes
   if (PUBLIC_ROUTES.includes(pathname)) {
+    console.log("in public routes");
     return NextResponse.next();
   }
 
@@ -17,6 +18,7 @@ export function middleware(request: NextRequest) {
 
   // Redirect to login if authToken is not present and the route is not public
   if (!authToken) {
+    console.log("NO TOKEN");
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
