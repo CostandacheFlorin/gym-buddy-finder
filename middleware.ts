@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
   // Get the current request URL path
   const pathname = new URL(request.url).pathname;
 
+  console.log(pathname);
   // Allow access to public routes
   if (PUBLIC_ROUTES.includes(pathname)) {
     console.log("in public routes");
@@ -15,6 +16,7 @@ export function middleware(request: NextRequest) {
 
   // Check for the authToken cookie
   const authToken = request.cookies.get("authToken");
+  console.log(authToken);
 
   // Redirect to login if authToken is not present and the route is not public
   if (!authToken) {
