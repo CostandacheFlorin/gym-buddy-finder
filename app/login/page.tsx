@@ -12,6 +12,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { refetchLatestChats, refetchGetMe } = useUserContext();
@@ -31,7 +33,25 @@ export default function LoginPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
-    mutate({ email, password });
+    let hasError = false;
+
+    if (!email) {
+      setEmailError("Email can't be empty");
+      hasError = true;
+    } else {
+      setEmailError(null);
+    }
+
+    if (!password) {
+      setPasswordError("Password can't be empty");
+      hasError = true;
+    } else {
+      setPasswordError(null);
+    }
+
+    if (!hasError) {
+      mutate({ email, password });
+    }
   };
 
   return (
@@ -53,9 +73,11 @@ export default function LoginPage() {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
+              className={`mt-1 block w-full px-3 py-2 bg-gray-800 border ${
+                emailError ? "border-red-500" : "border-gray-700"
+              } rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm`}
             />
+            {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div className="relative">
             <label
@@ -69,8 +91,9 @@ export default function LoginPage() {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
+              className={`mt-1 block w-full px-3 py-2 bg-gray-800 border ${
+                passwordError ? "border-red-500" : "border-gray-700"
+              } rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm`}
             />
             <button
               type="button"
@@ -83,6 +106,9 @@ export default function LoginPage() {
                 <HiEye className="h-5 w-5 text-green-400" />
               )}
             </button>
+            {passwordError && (
+              <p className="text-red-500 text-sm">{passwordError}</p>
+            )}
           </div>
           <button
             type="submit"

@@ -7,12 +7,18 @@ import { register } from "../lib/mutations";
 import { Gender } from "@/types/users";
 import { HiEye, HiEyeOff } from "react-icons/hi"; // Import eye icons
 import Link from "next/link";
+import validatePassword from "../../utils/validatePassword";
+import validator from "validator";
 
 export default function RegisterPage() {
   const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState<string | null>(null);
   const [lastName, setLastName] = useState("");
+  const [lastNameError, setLastNameError] = useState<string | null>(null);
   const [birthDate, setBirthDate] = useState<string>("");
+  const [ageError, setAgeError] = useState<string | null>(null);
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [gender, setGender] = useState<Gender>(Gender.MALE);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,25 +38,63 @@ export default function RegisterPage() {
     },
   });
 
-  const validatePassword = (password: string) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
-    return regex.test(password);
-  };
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(null); // Clear previous errors
+    let errors = false;
+    setError(null);
     setPasswordError(null);
+    setFirstNameError(null);
+    setLastNameError(null);
+    setAgeError(null);
+    setEmailError(null);
+
+    if (firstName.length < 3) {
+      setFirstNameError("First name must be at least 3 characters long.");
+      errors = true;
+    }
+
+    if (lastName.length < 3) {
+      setLastNameError("Last name must be at least 3 characters long.");
+      errors = true;
+    }
+
+    if (!validator.isEmail(email.trim())) {
+      setEmailError("Please enter a valid email address.");
+      errors = true;
+    }
+
+    const birthDateObj = new Date(birthDate);
+    const age = new Date().getFullYear() - birthDateObj.getFullYear();
+    if (age < 0) {
+      setAgeError("Blud thinks he is born in the future.");
+      errors = true;
+    } else if (age < 13) {
+      setAgeError("You must be at least 13 years old to register.");
+      errors = true;
+    } else if (age > 100) {
+      setAgeError(
+        "Bro at your age just chill out, no one trying to get benched by someone who is over 100 years old 💀"
+      );
+      errors = true;
+    }
+
+    if (isNaN(age)) {
+      setAgeError("Please select your age!");
+      errors = true;
+    }
 
     if (!validatePassword(password)) {
       setPasswordError(
         "Password must be at least 6 characters long, include at least one uppercase letter, one lowercase letter, and one number."
       );
-      return;
+      errors = true;
     }
 
     if (password !== confirmPassword) {
       setPasswordError("Passwords do not match.");
+      errors = true;
+    }
+    if (errors) {
       return;
     }
 
@@ -83,9 +127,14 @@ export default function RegisterPage() {
               id="first_name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
+              className={`mt-1 block w-full px-3 py-2 bg-gray-800 border ${
+                firstNameError ? "border-red-500" : "border-gray-700"
+              } rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm`}
             />
+
+            {firstNameError && (
+              <p className="text-red-500 text-sm py-2">{firstNameError}</p>
+            )}
           </div>
           <div>
             <label
@@ -99,9 +148,14 @@ export default function RegisterPage() {
               id="last_name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
+              className={`mt-1 block w-full px-3 py-2 bg-gray-800 border ${
+                lastNameError ? "border-red-500" : "border-gray-700"
+              } rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm`}
             />
+
+            {lastNameError && (
+              <p className="text-red-500 text-sm py-2">{lastNameError}</p>
+            )}
           </div>
           <div>
             <label
@@ -115,14 +169,16 @@ export default function RegisterPage() {
               id="birth_date"
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
-              min="1920-01-01"
-              max="2010-12-31"
-              required
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm appearance-none"
+              className={`mt-1 block w-full px-3 py-2 bg-gray-800 border ${
+                ageError ? "border-red-500" : "border-gray-700"
+              } rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm appearance-none`}
               style={{
                 colorScheme: "dark", // This ensures the calendar itself matches a dark theme.
               }}
             />
+            {ageError && (
+              <p className="text-red-500 text-sm py-2">{ageError}</p>
+            )}
           </div>
           <div>
             <label
@@ -132,13 +188,15 @@ export default function RegisterPage() {
               Email
             </label>
             <input
-              type="email"
+              type="text"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
+              className={`mt-1 block w-full px-3 py-2 bg-gray-800 border ${
+                emailError ? "border-red-500" : "border-gray-700"
+              } rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm`}
             />
+            {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
           </div>
           <div>
             <label
@@ -151,7 +209,6 @@ export default function RegisterPage() {
               id="gender"
               value={gender}
               onChange={(e) => setGender(e.target.value as Gender)}
-              required
               className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
             >
               <option value="" disabled>
@@ -174,8 +231,9 @@ export default function RegisterPage() {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
-                className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
+                className={`mt-1 block w-full px-3 py-2 bg-gray-800 border ${
+                  passwordError ? "border-red-500" : "border-gray-700"
+                } rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm`}
               />
               <button
                 type="button"
@@ -203,8 +261,9 @@ export default function RegisterPage() {
                 id="confirm_password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm"
+                className={`mt-1 block w-full px-3 py-2 bg-gray-800 border ${
+                  passwordError ? "border-red-500" : "border-gray-700"
+                } rounded-md shadow-sm focus:outline-none focus:ring-green-400 focus:border-green-400 text-green-400 sm:text-sm`}
               />
               <button
                 type="button"
@@ -219,31 +278,24 @@ export default function RegisterPage() {
               </button>
             </div>
           </div>
-          <button
-            type="submit"
-            disabled={isPending}
-            className={`w-full py-2 px-4 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-              isPending
-                ? "bg-green-700 cursor-not-allowed"
-                : "bg-green-600 hover:bg-green-700"
-            } text-white`}
-          >
-            {isPending ? "Registering..." : "Register"}
-          </button>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
           {passwordError && (
             <p className="text-red-500 text-sm">{passwordError}</p>
           )}
-          <p className="text-center text-sm text-green-400">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="text-green-400 hover:text-green-300 underline"
-            >
-              Log in
-            </Link>
-          </p>
+          {error && <p className="text-red-500 text-sm py-2">{error}</p>}
+          <button
+            type="submit"
+            disabled={isPending}
+            className="w-full px-4 py-2 mt-4 text-white bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
+          >
+            {isPending ? "Registering..." : "Register"}
+          </button>
         </form>
+        <p className="mt-4 text-sm text-center text-gray-400">
+          Already have an account?{" "}
+          <Link href="/login" className="text-green-400 hover:underline">
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );
