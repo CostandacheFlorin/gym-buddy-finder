@@ -6,21 +6,17 @@ const PUBLIC_ROUTES = ["/login", "/register", "/", "/about", "/contact"];
 export function middleware(request: NextRequest) {
   // Get the current request URL path
   const pathname = new URL(request.url).pathname;
-  console.log("111111");
-  console.log(pathname);
+  console.log(request.cookies.getAll());
   // Allow access to public routes
   if (PUBLIC_ROUTES.includes(pathname)) {
-    console.log("in public routes");
     return NextResponse.next();
   }
 
   // Check for the authToken cookie
   const authToken = request.cookies.get("authToken");
-  console.log(authToken);
 
   // Redirect to login if authToken is not present and the route is not public
   if (!authToken) {
-    console.log("NO TOKEN");
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
