@@ -46,6 +46,7 @@ export default function MyProfile() {
     newImageUrl,
     handleFileChange,
   } = useMyProfile();
+
   if (is_loading_user_data || !loggedInUser) {
     return <SkeletonProfile />;
   }

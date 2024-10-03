@@ -3,7 +3,7 @@ import React from "react";
 const SkeletonProfile = () => {
   return (
     <main
-      className="flex flex-col items-center bg-[#FFF5E1]"
+      className="flex flex-col min-h-screen items-center bg-gray-900"
       style={{ minHeight: "calc(100vh - 4rem)" }}
     >
       <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6 space-y-6">

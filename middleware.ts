@@ -6,7 +6,7 @@ const PUBLIC_ROUTES = ["/login", "/register", "/", "/about", "/contact"];
 export function middleware(request: NextRequest) {
   // Get the current request URL path
   const pathname = new URL(request.url).pathname;
-
+  console.log("111111");
   console.log(pathname);
   // Allow access to public routes
   if (PUBLIC_ROUTES.includes(pathname)) {
@@ -30,5 +30,5 @@ export function middleware(request: NextRequest) {
 
 // Configure the middleware to match specific paths
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|icon.png).*)"],
 };
