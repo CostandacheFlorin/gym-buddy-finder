@@ -107,7 +107,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   } = useQuery({
     queryKey: [QueryKeys.getMe],
     queryFn: () => getMe(),
-    retry: false,
   });
 
   const {
