@@ -24,7 +24,6 @@ export default function Navigation() {
     logoutMutation();
   };
 
-  // Don't render navigation on login page or when not authenticated
   if (routesWithoutNavigation.includes(pathname) || !loggedInUser) {
     return null;
   }
@@ -35,13 +34,15 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <Image
-                width={32}
-                height={32}
-                src={"/images/default-avatar.jpg"}
-                alt={`Logo picture`}
-                className="rounded-full"
-              />
+              <Link href={"/"}>
+                <Image
+                  width={32}
+                  height={32}
+                  src={"/images/logo.png"}
+                  alt={`Logo picture`}
+                  className="rounded-full"
+                />
+              </Link>
             </div>
             <div className="ml-4 flex items-baseline space-x-4">
               {routes.map((route) => (
