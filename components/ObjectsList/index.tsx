@@ -17,10 +17,10 @@ const ObjectsList = ({
       <h3 className="font-bold text-lg mb-4">{title}</h3>
 
       <div className="flex gap-2 max-w-[550px] flex-wrap">
-        {list.map((item) => {
+        {list.map((item, index) => {
           if (propertyToHover) {
             return (
-              <Tooltip key={item} text={item[propertyToHover]}>
+              <Tooltip key={`${item} ${index}`} text={item[propertyToHover]}>
                 <div className="p-2 text-green-500 border-gray-600 border-2 rounded">
                   {item[propertyToShow]}
                 </div>

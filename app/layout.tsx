@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContextProvider } from "../context/UserContext";
 import Navigation from "@/components/Navigation";
+import AuthWrapper from "../components/AuthWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +25,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <ReactQueryProvider>
           <UserContextProvider>
-            <Navigation />
-            {children}
+            <AuthWrapper>
+              <Navigation />
+              {children}
+            </AuthWrapper>
           </UserContextProvider>
         </ReactQueryProvider>
         <ToastContainer />
