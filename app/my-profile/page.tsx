@@ -67,7 +67,7 @@ export default function MyProfile() {
                 src={
                   newImageUrl ||
                   loggedInUser?.pictures[0]?.url ||
-                  "/images/cat.jpeg"
+                  "/images/default-avatar.jpg"
                 }
                 alt="Profile"
                 width={320}

@@ -35,7 +35,7 @@ const UserProfile = ({
           <Image
             width={320}
             height={320}
-            src={user.pictures[0]?.url || "/images/cat.jpeg"}
+            src={user.pictures[0]?.url || "/images/default-avatar.jpg"}
             alt={`user picture`}
             className="w-full h-auto max-w-[320px] rounded-lg shadow-lg"
           />
@@ -44,7 +44,14 @@ const UserProfile = ({
           <h2 className="text-3xl text-green-400">{`${
             user.first_name
           }, ${calculateAge(new Date(user.birth_date))}`}</h2>
-          <h2 className="text-lg mb-4 text-gray-400">{`${user.country}, ${user.city} `}</h2>
+
+          <h2 className="text-lg mb-4 text-gray-400">{`${
+            !user?.onboarding_completed &&
+            "This user hasn't finished setting up their profile."
+          }`}</h2>
+          <h2 className="text-lg mb-4 text-gray-400">{`${user?.country || ""} ${
+            user?.country ? "," : ""
+          }  ${user?.city || ""} `}</h2>
           <div className="flex-grow overflow-y-auto overflow-x-hidden">
             <p className="max-w-[550px] mb-4 text-gray-300">
               {user.description}
