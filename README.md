@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Description
+This is the frontend repository for my Gym Buddy Finder app. Here I will describe all the functionalities of my app, also you can check out my code.
+This app aims to help individuals find new people they can workout with, and even start friendships outside the gym, as you can set up your profile with hobbies outside of the gym room aswell.
+Users can set up their profiles, browse people and once they match with someone, they can send a DM to them.
+![image](https://github.com/user-attachments/assets/6cad67f9-2af9-4b41-88d9-6fc61cb08bca)
 
-## Getting Started
 
-First, run the development server:
+# Functionalities
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* Registering a new account
+  Anyone can make a new account with ease, and join our community.
+  ![image](https://github.com/user-attachments/assets/ad7061b1-b968-428a-9e07-0fa91449318c)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* Login
+  After succesfully creating a new account, you can login in order to access our app's features.
+  ![image](https://github.com/user-attachments/assets/f168a1ac-aac4-415c-928d-5a26bf20d6d1)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* Profile
+  After logging in, you will be redirected to your profile, which you have to complete.
+  ![image](https://github.com/user-attachments/assets/38745c35-005c-4366-bf64-38d09e0a53f9)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![image](https://github.com/user-attachments/assets/4c6503d8-ed54-44df-868f-e5ccab066abb)
 
-## Learn More
+* Browse people
 
-To learn more about Next.js, take a look at the following resources:
+ You can browse people by clicking the browse tab inside the top navigation. For now you can only browse people with the same gender as you ( for obvious reasons).
+ ![image](https://github.com/user-attachments/assets/e40a6682-4730-457e-9453-a944f2488c25)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Here are four actions you can take: go to the previous person, reject, match, or go to the next person.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The matching algorithm is made in a way so the people that want to match with you are the first ones appearing, this facilitating creating connections easier.
 
-## Deploy on Vercel
+After you succesfully matched with someone, a pop up will be displayed and you can start messaging them.
+![image](https://github.com/user-attachments/assets/1fa72fdf-4e22-46a2-bafc-c7529659958f)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The messages are being sent / received in real time via WebSockets, so the information is in realtime.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+https://github.com/user-attachments/assets/44194f47-6d97-4621-9f16-983920ff9820
+
+
+
+# Features to be added
+* Workout schedule, you can see someone's workout schedule in order to see if your schedules align with each other!
+* Group chats! You will be able to create group chats and invite more people to your group chat, this way everytime you will have someone to work out with!
