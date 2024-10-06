@@ -25,7 +25,7 @@ export default function Browse() {
   } = useBrowseUsers();
 
   const redirectToMatchedPartner = () => {
-    router.push(`/chat/${users[currentUserIndex]._id}`);
+    router.push(`/chat/${users[currentMatchedUserIndex]._id}`);
   };
 
   const { loggedInUser, is_loading_user_data, latest_chats_isLoading } =
@@ -37,8 +37,8 @@ export default function Browse() {
 
   if (!loggedInUser?.onboarding_completed) {
     router.push("/my-profile");
+    return null;
   }
-
   return (
     <div>
       <MatchModal
