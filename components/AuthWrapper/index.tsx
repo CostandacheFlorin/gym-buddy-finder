@@ -29,7 +29,7 @@ export default function AuthWrapper({
     if (!loggedInUser && !PUBLIC_ROUTES.includes(pathname)) {
       router.push("/login");
     } else if (loggedInUser && AUTH_ROUTES.includes(pathname)) {
-      router.push("/browse");
+      router.push("/my-profile");
     }
   }, [
     loggedInUser,

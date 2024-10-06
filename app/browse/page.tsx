@@ -35,10 +35,6 @@ export default function Browse() {
     return <SkeletonUserProfile />;
   }
 
-  if (!loggedInUser?.onboarding_completed) {
-    router.push("/my-profile");
-    return null;
-  }
   return (
     <div>
       <MatchModal
