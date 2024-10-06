@@ -17,6 +17,8 @@ export default function ChatPage() {
     if (loggedInUser?._id) {
       const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}/messages`, {
         query: { userId: loggedInUser._id },
+        transports: ["websocket"],
+        upgrade: false,
       });
 
       setSocket(newSocket);

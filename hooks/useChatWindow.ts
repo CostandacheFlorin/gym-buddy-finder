@@ -20,6 +20,8 @@ const useChatWindow = ({ userChatId }: { userChatId: string }) => {
     if (loggedInUser?._id && otherUser?._id) {
       const newSocket = io(`${process.env.NEXT_PUBLIC_API_URL}/messages`, {
         query: { userId: loggedInUser._id, otherUserId: otherUser?._id },
+        transports: ["websocket"],
+        upgrade: false,
       });
 
       setSocket(newSocket);
